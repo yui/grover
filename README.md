@@ -1,7 +1,7 @@
 YUITest Wrapper for PhantomJS
 =============================
 
-A little command line tool for running [http://yuilibrary..com/yuitest](YUITest) html
+A little command line tool for running [YUITest](http://yuilibrary..com/yuitest) html
 files inside of PhantomJS.
 
 This release supports exiting with the proper exit code to fail a build.
@@ -32,5 +32,5 @@ Output
 What's with the name?
 ---------------------
 
-This tool is dedicated to [https://github.com/rgrove](Ryan Grove) for all his work on YUI over the last year.
+This tool is dedicated to [Ryan Grove](https://github.com/rgrove) for all his work on YUI over the last year.
 I told him that my next command line tool would be named "grover" after "rgrove".
