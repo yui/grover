@@ -1,0 +1,12 @@
+{
+    "name": "grover",
+    "description": "PhantomJS wrapper for YUITest",
+    "version": "0.0.1",
+    "bin": {
+        "grover": "./bin/grover.js"
+    },
+    "dependencies": {
+        "colors": "*"
+    },
+    "preferGlobal": "true"
+}
