@@ -194,7 +194,7 @@ var done = function() {
     });
     var END = (new Date()).getTime();
     if (!options.silent && !options.quiet) {
-        console.log('---------------------------------------');
+        console.log('----------------------------------------------------------------');
         util.status(res, START, END);
     }
     if (res.failed) {
