@@ -6,7 +6,8 @@
         "grover": "./bin/grover.js"
     },
     "dependencies": {
-        "colors": "*"
+        "colors": "*",
+        "yuitest": "*"
     },
     "preferGlobal": "true"
 }

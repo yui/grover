@@ -28,6 +28,18 @@ Output
              :( [Total] Passed: 369 Failed: 1 Total: 371 (ignored 1)
 
 
+Saving Results
+--------------
+
+Grover supports the 4 ways that YUITest exports it's tests results so you can import them
+into another system.
+
+    grover ./tests/*.js -o ./results/results.json --json
+    grover ./tests/*.js -o ./results/results.xml --xml
+    grover ./tests/*.js -o ./results/results.tap --tap
+    grover ./tests/*.js -o ./results/results.junit.xml --junit
+
+
 
 What's with the name?
 ---------------------

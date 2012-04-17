@@ -6,7 +6,7 @@ var wrapper = path.join(__dirname, '../lib/wrapper.js');
 var args = process.argv.slice(2),
     options = {
         paths: [],
-        outdir: 'false',
+        outtype: 'tap',
         silent: false,
         quiet: false,
         exitOnFail: false
@@ -41,13 +41,19 @@ while (args.length > 0) {
             console.log('Version ' + VERSION);
             console.log('');
             console.log('grover <paths to yuitest html files>');
+            console.log('   -v, --version Print version');
+            console.log('   -h, --help Print this stuff');
             console.log('   -s, --silent Print no output, only use exit code');
             console.log('   -q, --quiet Only print errors and use exit code');
             console.log('   -f, --fail Fail on first error');
             console.log('   -i, --import <path to js file> - Require this file and use the exports (array)');
             console.log('           as the list of files to process.');
-            console.log('   -v, --version Print version');
-            console.log('   -h, --help Print this stuff');
+            console.log('   -o, --outfile <path to export file>');
+            console.log('       You can specify an export type with the following:');
+            console.log('       --tap TAP export (default)');
+            console.log('       --xml XML export');
+            console.log('       --json JSON export');
+            console.log('       --junit JUnit XML export');
             process.exit();
             break;
         case "-v":
@@ -56,9 +62,20 @@ while (args.length > 0) {
             process.exit(1);
             break;
         case "-o":
-        case "--outdir":
-            //Not totally implemented yet
-            options.outdir = args.shift();
+        case "--outfile":
+            options.outfile = args.shift();
+            break;
+        case "--tap":
+            options.outtype = 'TAP';
+            break;
+        case "--json":
+            options.outtype = 'JSON';
+            break;
+        case "--xml":
+            options.outtype = 'XML';
+            break;
+        case "--junit":
+            options.outtype = 'JUnitXML';
             break;
         default:
             if (v.indexOf('-') === 0) {
@@ -134,15 +151,14 @@ var run = function() {
             }
             process.exit(1);
         }
-        var cmd = 'phantomjs ' + wrapper + ' ' + options.outdir + ' ' + file;
+        var cmd = 'phantomjs ' + wrapper + ' ' + file;
         exec(cmd, function(err, stdout) {
             var results = JSON.parse(stdout);
             testResults.push(results);
-            var json = JSON.parse(results.json);
-            if (canPrint(json)) {
-                util.status(json);
+            if (canPrint(results)) {
+                util.status(results);
             }
-            if (options.exitOnFail && json.failed) {
+            if (options.exitOnFail && results.failed) {
                 process.exit(1);
             }
             run();
@@ -153,6 +169,16 @@ var run = function() {
 };
 
 var done = function() {
+    if (options.outfile && options.outtype) {
+        var proc = require(path.join(__dirname, '../lib/process')),
+            fs = require('fs'),
+            output = proc(testResults, options.outtype);
+        
+        if (!options.silent && !options.quiet) {
+            util.log('Writing files in ' + options.outtype + ' format to: ' + options.outfile);
+        }
+        fs.writeFileSync(options.outfile, output, 'utf8');
+    }
     var res = {
         name: 'Total',
         passed: 0,
@@ -160,8 +186,7 @@ var done = function() {
         ignored: 0,
         total: 0
     };
-    testResults.forEach(function(r) {
-        var json = JSON.parse(r.json);
+    testResults.forEach(function(json) {
         res.passed += json.passed;
         res.failed += json.failed;
         res.total += json.total;
