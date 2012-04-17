@@ -12,6 +12,7 @@ var args = process.argv.slice(2),
         exitOnFail: false
     };
 
+var START = (new Date()).getTime();
 var VERSION = require(path.join(__dirname, '../package.json')).version;
 var util = require(path.join(__dirname, '../lib/'));
 
@@ -166,9 +167,10 @@ var done = function() {
         res.total += json.total;
         res.ignored += json.ignored;
     });
+    var END = (new Date()).getTime();
     if (!options.silent && !options.quiet) {
         console.log('---------------------------------------');
-        util.status(res);
+        util.status(res, START, END);
     }
     if (res.failed) {
         process.exit(1);
