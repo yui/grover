@@ -18,6 +18,10 @@ var util = require(path.join(__dirname, '../lib/'));
 while (args.length > 0) {
     var v = args.shift();
     switch (v) {
+        case "-i":
+        case "--import":
+            options.import = args.shift();
+            break;
         case "-s":
         case "--silent":
             options.silent = true;
@@ -39,6 +43,8 @@ while (args.length > 0) {
             console.log('   -s, --silent Print no output, only use exit code');
             console.log('   -q, --quiet Only print errors and use exit code');
             console.log('   -f, --fail Fail on first error');
+            console.log('   -i, --import <path to js file> - Require this file and use the exports (array)');
+            console.log('           as the list of files to process.');
             console.log('   -v, --version Print version');
             console.log('   -h, --help Print this stuff');
             process.exit();
@@ -63,11 +69,21 @@ while (args.length > 0) {
     }
 }
 
+if (options.import) {
+    if (!path.existsSync(options.import) || path.existsSync(path.join(process.cwd(), options.import))) {
+        options.import = path.join(process.cwd(), options.import);
+    }
+    var paths = require(options.import);
+    if (paths && paths.length) {
+        options.paths = paths;
+    }
+}
 
 if (!options.paths.length) {
     console.error('No files given');
     process.exit(1);
 }
+
 
 var check = function(cb) {
     exec('phantomjs --version', function(stdin, stdout, stderr) {
