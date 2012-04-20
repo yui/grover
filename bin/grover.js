@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 var path = require('path');
+var fs = require('fs');
 var exec = require('child_process').exec;
 var wrapper = path.join(__dirname, '../lib/wrapper.js');
 var args = process.argv.slice(2),
@@ -13,7 +14,8 @@ var args = process.argv.slice(2),
     };
 
 var START = (new Date()).getTime();
-var VERSION = require(path.join(__dirname, '../package.json')).version;
+//var VERSION = require(path.join(__dirname, '../package.json')).version;
+var VERSION = JSON.parse(fs.readFileSync(path.join(__dirname, '../package.json'), 'utf8')).version;
 var util = require(path.join(__dirname, '../lib/'));
 
 while (args.length > 0) {
