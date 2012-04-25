@@ -13,6 +13,11 @@ You must have the `phantomjs` command line tool installed prior to running this.
 
     npm -g install grover
 
+Build Status
+------------
+
+[![Travis Build Status](https://secure.travis-ci.org/davglass/grover.png?branch=master)](http://travis-ci.org/davglass/grover)
+
 Output
 ------
 
