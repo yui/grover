@@ -11,7 +11,7 @@ var Assert = YUITest.Assert;
 var wrapper = path.join(__dirname, '../lib/wrapper.js');
 
 var runTest = function(file, cb) {
-    var cmd = 'phantomjs ' + wrapper + ' ' + file;
+    var cmd = 'phantomjs ' + wrapper + ' ' + path.join(__dirname, file);
     exec(cmd, cb);
 };
 
