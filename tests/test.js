@@ -12,6 +12,7 @@ var wrapper = path.join(__dirname, '../lib/wrapper.js');
 
 var runTest = function(file, cb) {
     var cmd = 'phantomjs ' + wrapper + ' ' + path.join(__dirname, file);
+    console.log('Executing: ', cmd);
     exec(cmd, cb);
 };
 
@@ -55,3 +56,12 @@ suite.add(new YUITest.TestCase({
 
 
 YUITest.TestRunner.add(suite);
+
+var timer = setTimeout(function() {
+    console.error('Test Timeout Exiting..');
+    process.exit(1);
+}, (30 * 1000)); //30 second test timout
+
+YUITest.TestRunner.subscribe('complete', function() {
+    clearTimeout(timer);
+});
