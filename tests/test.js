@@ -31,7 +31,7 @@ suite.add(new YUITest.TestCase({
             });
         });
 
-        this.wait();
+        this.wait(5000);
     }
 }));
 
@@ -49,7 +49,7 @@ suite.add(new YUITest.TestCase({
             });
         });
 
-        this.wait();
+        this.wait(5000);
     }
 }));
 
