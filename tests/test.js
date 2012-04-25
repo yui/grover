@@ -11,7 +11,7 @@ var YUITest = require('yuitest'),
 var timer = setTimeout(function() {
     console.error('Test Timeout Exiting..');
     process.exit(1);
-}, (30 * 1000)); //30 second test timout
+}, (45 * 1000)); //second test timout
 
 YUITest.TestRunner.subscribe('complete', function() {
     clearTimeout(timer);
@@ -99,6 +99,44 @@ suite.add(new YUITest.TestCase({
         });
 
         this.wait();
+    }
+}));
+
+var parse = require(path.join(__dirname, '../lib/options')).parse;
+
+suite.add(new YUITest.TestCase({
+    name: 'Options Tests',
+    'check timeout number': function() {
+        var opts = parse(['-t', '3']);
+        Assert.areEqual(3, opts.timeout, 'Failed to set number timeout');
+
+        opts = parse(['--timeout', '3']);
+        Assert.areEqual(3, opts.timeout, 'Failed to set number timeout');
+    },
+    'check timeout -1': function() {
+        var opts = parse(['-t', '-1']);
+        Assert.isNull(opts.timeout, 'Failed to set null timeout');
+
+        opts = parse(['--timeout', '-1']);
+        Assert.isNull(opts.timeout, 'Failed to set null timeout');
+    },
+    'check timeout string': function() {
+        var opts = parse(['-t', 'foobar']);
+        Assert.isUndefined(opts.timeout, 'Failed to set null timeout');
+
+        opts = parse(['--timeout', 'foobar']);
+        Assert.isUndefined(opts.timeout, 'Failed to set null timeout');
+    },
+    'check booleans': function() {
+        var opts = parse(['-s', '-q', '-f']);
+        Assert.isTrue(opts.silent, 'Failed to set silent');
+        Assert.isTrue(opts.quiet, 'Failed to set quiet');
+        Assert.isTrue(opts.exitOnFail, 'Failed to set exitOnFail');
+
+        opts = parse(['--quiet', '--silent', '--fail']);
+        Assert.isTrue(opts.silent, 'Failed to set silent');
+        Assert.isTrue(opts.quiet, 'Failed to set quiet');
+        Assert.isTrue(opts.exitOnFail, 'Failed to set exitOnFail');
     }
 }));
 
