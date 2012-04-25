@@ -6,6 +6,17 @@ var YUITest = require('yuitest'),
     path = require('path'),
     exec = require('child_process').exec;
 
+
+
+var timer = setTimeout(function() {
+    console.error('Test Timeout Exiting..');
+    process.exit(1);
+}, (30 * 1000)); //30 second test timout
+
+YUITest.TestRunner.subscribe('complete', function() {
+    clearTimeout(timer);
+});
+
 var Assert = YUITest.Assert;
 
 var wrapper = path.join(__dirname, '../lib/wrapper.js');
@@ -33,7 +44,7 @@ suite.add(new YUITest.TestCase({
             });
         });
 
-        this.wait(5000);
+        this.wait(15000);
     }
 }));
 
@@ -51,18 +62,10 @@ suite.add(new YUITest.TestCase({
             });
         });
 
-        this.wait(5000);
+        this.wait(15000);
     }
 }));
 
 
 YUITest.TestRunner.add(suite);
 
-var timer = setTimeout(function() {
-    console.error('Test Timeout Exiting..');
-    process.exit(1);
-}, (30 * 1000)); //30 second test timout
-
-YUITest.TestRunner.subscribe('complete', function() {
-    clearTimeout(timer);
-});
