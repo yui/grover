@@ -21,6 +21,13 @@ var util = require(path.join(__dirname, '../lib/'));
 while (args.length > 0) {
     var v = args.shift();
     switch (v) {
+        case "-t":
+        case "--timeout":
+            var t = parseInt(args.shift());
+            if (!isNaN(t)) {
+                options.timeout = t;
+            }
+            break;
         case "-i":
         case "--import":
             options.import = args.shift();
@@ -48,6 +55,7 @@ while (args.length > 0) {
             console.log('   -s, --silent Print no output, only use exit code');
             console.log('   -q, --quiet Only print errors and use exit code');
             console.log('   -f, --fail Fail on first error');
+            console.log('   -t, --timeout Specify a timeout (in seconds) for a test file to be considered as failed.');
             console.log('   -i, --import <path to js file> - Require this file and use the exports (array)');
             console.log('           as the list of files to process.');
             console.log('   -o, --outfile <path to export file>');
@@ -89,6 +97,10 @@ while (args.length > 0) {
     }
 }
 
+if (options.timeout <=0 ) {
+    options.timeout = null;
+}
+
 if (options.import) {
     if (!path.existsSync(options.import) || path.existsSync(path.join(process.cwd(), options.import))) {
         options.import = path.join(process.cwd(), options.import);
@@ -120,7 +132,11 @@ check(function(version) {
     
     if (!options.silent && !options.quiet) {
         util.log('Starting Grover on ' + options.paths.length  + ' files with PhantomJS@' + version);
+        if (options.timeout) {
+            util.log('  Using a ' + options.timeout + ' second timeout per test.');
+        }
     }
+
     if (options.exitOnFail) {
         util.log('--will exit on first test error');
     }
@@ -154,6 +170,9 @@ var run = function() {
             process.exit(1);
         }
         var cmd = 'phantomjs ' + wrapper + ' ' + file;
+        if (options.timeout) {
+            cmd += ' ' + options.timeout;
+        }
         exec(cmd, function(err, stdout) {
             var results = JSON.parse(stdout);
             testResults.push(results);

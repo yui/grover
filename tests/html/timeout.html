@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test One</title>
+</head>
+<body>
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+YUI().use('test', function(Y) {
+    var suite = new Y.Test.Suite('Timeout Test');
+
+    for (var i = 1; i <= 5000; i++) { //Set this high so the timeout can fire
+        suite.add(new Y.Test.Case({
+            name: "Case #" + i,
+            'test: bogus test - ': function() {
+                Y.Assert.isTrue(true);
+            }
+        }));
+    }
+    Y.Test.Runner.add(suite);
+    Y.Test.Runner.run();
+});
+</script>
+</body>
+</html>

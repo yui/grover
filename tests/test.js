@@ -21,8 +21,12 @@ var Assert = YUITest.Assert;
 
 var wrapper = path.join(__dirname, '../lib/wrapper.js');
 
-var runTest = function(file, cb) {
-    var cmd = 'phantomjs ' + wrapper + ' ' + path.join(__dirname, file);
+var runTest = function(file, timeout, cb) {
+    if (!cb) {
+        cb = timeout;
+        timeout = '';
+    }
+    var cmd = 'phantomjs ' + wrapper + ' ' + path.join(__dirname, file) + ' ' + timeout;
     //console.log('Executing: ', cmd);
     exec(cmd, cb);
 };
@@ -66,8 +70,8 @@ suite.add(new YUITest.TestCase({
 }));
 
 suite.add(new YUITest.TestCase({
-    name: 'Script Error',
-    'Error Tests': function() {
+    name: 'Errors',
+    'Should throw script error': function() {
         var test = this;
         
         runTest('./html/error.html', function(err, stdout) {
@@ -76,6 +80,21 @@ suite.add(new YUITest.TestCase({
                 Assert.areEqual(0, json.passed, 'A test failed');
                 Assert.areEqual(1, json.failed, 'A test failed');
                 Assert.isNotUndefined(json.error, 'Error message was not passed along');
+            });
+        });
+
+        this.wait();
+    },
+    'Should Throw Timeout': function() {
+        var test = this;
+        
+        runTest('./html/timeout.html', 1, function(err, stdout) {
+            test.resume(function() {
+                var json = JSON.parse(stdout);
+                Assert.areEqual(0, json.passed, 'A test failed');
+                Assert.areEqual(1, json.failed, 'A test failed');
+                Assert.isNotUndefined(json.error, 'Error message was not passed along');
+                Assert.areEqual('Script Timeout', json.error);
             });
         });
 
