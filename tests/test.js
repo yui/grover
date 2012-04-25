@@ -23,7 +23,8 @@ suite.add(new YUITest.TestCase({
     'Check Results': function() {
         var test = this;
         
-        runTest('./html/good.html', function(err, stdout) {
+        runTest('./html/good.html', function(err, stdout, stderr) {
+            console.log(arguments);
             test.resume(function() {
                 var json = JSON.parse(stdout);
                 Assert.areSame('Suite #1', json.name, 'Suite Name Incorrect');
