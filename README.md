@@ -28,6 +28,26 @@ Output
              :( [Total] Passed: 369 Failed: 1 Total: 371 (ignored 1)
 
 
+Commandline Arguments
+---------------------
+
+    grover <paths to yuitest html files>
+       -v, --version Print version
+       -h, --help Print this stuff
+       -s, --silent Print no output, only use exit code
+       -q, --quiet Only print errors and use exit code
+       -f, --fail Fail on first error
+       -t, --timeout Specify a timeout (in seconds) for a test file to be considered as failed.
+       -i, --import <path to js file> - Require this file and use the exports (array)
+               as the list of files to process.
+       -o, --outfile <path to export file>
+           You can specify an export type with the following:
+           --tap TAP export (default)
+           --xml XML export
+           --json JSON export
+           --junit JUnit XML export
+
+
 Saving Results
 --------------
 
