@@ -23,7 +23,7 @@ var wrapper = path.join(__dirname, '../lib/wrapper.js');
 
 var runTest = function(file, cb) {
     var cmd = 'phantomjs ' + wrapper + ' ' + path.join(__dirname, file);
-    console.log('Executing: ', cmd);
+    //console.log('Executing: ', cmd);
     exec(cmd, cb);
 };
 
@@ -35,7 +35,6 @@ suite.add(new YUITest.TestCase({
         var test = this;
         
         runTest('./html/good.html', function(err, stdout, stderr) {
-            console.log(arguments);
             test.resume(function() {
                 var json = JSON.parse(stdout);
                 Assert.areSame('Suite #1', json.name, 'Suite Name Incorrect');
@@ -44,7 +43,7 @@ suite.add(new YUITest.TestCase({
             });
         });
 
-        this.wait(15000);
+        this.wait();
     }
 }));
 
@@ -62,7 +61,25 @@ suite.add(new YUITest.TestCase({
             });
         });
 
-        this.wait(15000);
+        this.wait();
+    }
+}));
+
+suite.add(new YUITest.TestCase({
+    name: 'Script Error',
+    'Error Tests': function() {
+        var test = this;
+        
+        runTest('./html/error.html', function(err, stdout) {
+            test.resume(function() {
+                var json = JSON.parse(stdout);
+                Assert.areEqual(0, json.passed, 'A test failed');
+                Assert.areEqual(1, json.failed, 'A test failed');
+                Assert.isNotUndefined(json.error, 'Error message was not passed along');
+            });
+        });
+
+        this.wait();
     }
 }));
 
