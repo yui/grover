@@ -11,5 +11,11 @@
         "colors": "*",
         "yuitest": "*"
     },
+    "devDependencies": {
+        "yuitest": "*"
+    },
+    "scripts": {
+        "test": "./node_modules/.bin/yuitest ./tests/test.js"
+    },
     "preferGlobal": "true"
 }
