@@ -15,7 +15,7 @@
         "yuitest": "*"
     },
     "scripts": {
-        "test": "./node_modules/.bin/yuitest ./tests/test.js"
+        "test": "phantomjs -v && ./node_modules/.bin/yuitest ./tests/test.js"
     },
     "preferGlobal": "true"
 }
