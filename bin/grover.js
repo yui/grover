@@ -30,6 +30,8 @@ check(function(version) {
     
     if (!options.silent && !options.quiet) {
         util.log('Starting Grover on ' + options.paths.length  + ' files with PhantomJS@' + version);
+        util.log('  Running ' + options.concurrent + ' concurrent tests at a time.');
+
         if (options.timeout) {
             util.log('  Using a ' + options.timeout + ' second timeout per test.');
         }
@@ -38,10 +40,17 @@ check(function(version) {
     if (options.exitOnFail) {
         util.log('--will exit on first test error');
     }
-    run();
+    if (options.concurrent) {
+        for (var i = 1; i < options.concurrent; i++) {
+            run();
+        }
+    } else {
+        run();
+    }
 });
 
-var testResults = [];
+var testResults = [],
+    counter = options.paths.length;
 
 var run = function() {
     var file = options.paths.shift();
@@ -68,7 +77,9 @@ var run = function() {
             run();
         });
     } else {
-        done();
+        if (counter === testResults.length) {
+            done();
+        }
     }
 };
 
