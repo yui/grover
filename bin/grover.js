@@ -55,7 +55,7 @@ var testResults = [],
 var run = function() {
     var file = options.paths.shift();
     if (file) {
-        if (!path.existsSync(file)) {
+        if (!path.existsSync(file) && !file.match(/^https?:\/\//)) {
             if (util.canPrint(options)) {
                 util.error(':( Can not find file: ' + file);
             }
