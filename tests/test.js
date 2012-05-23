@@ -137,6 +137,13 @@ suite.add(new YUITest.TestCase({
         Assert.isTrue(opts.silent, 'Failed to set silent');
         Assert.isTrue(opts.quiet, 'Failed to set quiet');
         Assert.isTrue(opts.exitOnFail, 'Failed to set exitOnFail');
+    },
+    'check prefix': function() {
+        var opts = parse(['-p', 'http://localhost:300/', 'foo.html', 'path/to/file.html']);
+
+        Assert.areEqual(opts.paths.length, 2, 'Failed to parse paths');
+        Assert.areEqual(opts.paths[0], 'http://localhost:300/foo.html', 'Failed to add prefix to first item');
+        Assert.areEqual(opts.paths[1], 'http://localhost:300/path/to/file.html', 'Failed to add prefix to second item');
     }
 }));
 
