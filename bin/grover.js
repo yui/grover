@@ -6,6 +6,8 @@ var exec = require('child_process').exec;
 var wrapper = path.join(__dirname, '../lib/wrapper.js');
 var options = require(path.join(__dirname, '../lib/options')).parse(process.argv.slice(2));
 
+var existsSync = fs.existsSync || path.existsSync;
+
 var START = (new Date()).getTime();
 var util = require(path.join(__dirname, '../lib/'));
 
@@ -55,7 +57,7 @@ var testResults = [],
 var run = function() {
     var file = options.paths.shift();
     if (file) {
-        if (!path.existsSync(file) && !file.match(/^https?:\/\//)) {
+        if (!existsSync(file) && !file.match(/^https?:\/\//)) {
             if (util.canPrint(options)) {
                 util.error(':( Can not find file: ' + file);
             }
@@ -83,6 +85,7 @@ var run = function() {
     }
 };
 
+
 var done = function() {
     if (options.outfile && options.outtype) {
         var proc = require(path.join(__dirname, '../lib/process')),
@@ -101,12 +104,26 @@ var done = function() {
         ignored: 0,
         total: 0
     };
+
     testResults.forEach(function(json) {
         res.passed += json.passed;
         res.failed += json.failed;
         res.total += json.total;
         res.ignored += json.ignored;
+        if (json.jscoverage) {
+            res.jscoverage = res.jscoverage || {};
+            for (var i in json.jscoverage) {
+                res.jscoverage[i] = res.jscoverage[i] || {};
+                res.jscoverage[i].hit = res.jscoverage[i].hit || 0;
+                if (json.jscoverage[i].hit > res.jscoverage[i].hit) {
+                    res.jscoverage[i].hit = json.jscoverage[i].hit;
+                }
+                res.jscoverage[i].lines = json.jscoverage[i].lines;
+                res.jscoverage[i].miss = (res.jscoverage[i].lines - res.jscoverage[i].hit);
+            }
+        }
     });
+
     var END = (new Date()).getTime();
     if (!options.silent && !options.quiet) {
         console.log('----------------------------------------------------------------');
