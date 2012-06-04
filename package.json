@@ -1,7 +1,7 @@
 {
     "name": "grover",
     "description": "PhantomJS wrapper for YUITest",
-    "version": "0.0.9",
+    "version": "0.0.10",
     "os": [ "darwin", "linux" ],
     "engines": { "node": ">=0.4.0" },
     "bin": {
