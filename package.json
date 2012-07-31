@@ -9,7 +9,9 @@
     },
     "dependencies": {
         "colors": "*",
-        "yuitest": "*"
+        "yuitest": "*",
+        "express": "2.5.11",
+        "osenv": "*"
     },
     "devDependencies": {
         "yuitest": "*"

@@ -20,7 +20,11 @@ if (!options.paths.length) {
 var check = function(cb) {
     exec('phantomjs --version', function(stdin, stdout, stderr) {
         var version = stdout.replace('\n', '');
-        cb(version);
+        if (!version) {
+            util.fetch();
+        } else {
+            cb(version);
+        }
     });
 }
 
