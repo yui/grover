@@ -122,6 +122,19 @@ var done = function() {
                 res.jscoverage[i].miss = (res.jscoverage[i].lines - res.jscoverage[i].hit);
             }
         }
+        if (json.yuiTestCoverage) {
+            res.jscoverage = res.jscoverage || {};
+            for (var i in json.yuiTestCoverage) {
+                res.jscoverage[i] = res.jscoverage[i] || {};
+                res.jscoverage[i].hit = res.jscoverage[i].hit || 0;
+                res.jscoverage[i].lines = res.jscoverage[i].lines || 0;
+                res.jscoverage[i].miss = res.jscoverage[i].miss || 0;
+
+                res.jscoverage[i].hit += json.yuiTestCoverage[i].calledLines;
+                res.jscoverage[i].lines += json.yuiTestCoverage[i].coveredLines;
+                res.jscoverage[i].miss += (json.yuiTestCoverage[i].coveredLines - json.yuiTestCoverage[i].calledLines);
+            }
+        }
     });
 
     var END = (new Date()).getTime();
