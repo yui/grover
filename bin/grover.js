@@ -3,6 +3,7 @@
 var path = require('path');
 var fs = require('fs');
 var exec = require('child_process').exec;
+var spawn = require('child_process').spawn;
 var wrapper = path.join(__dirname, '../lib/wrapper.js');
 var options = require(path.join(__dirname, '../lib/options')).parse(process.argv.slice(2));
 
@@ -63,11 +64,20 @@ var run = function() {
             }
             process.exit(1);
         }
-        var cmd = 'phantomjs ' + wrapper + ' ' + file;
+        
+        var args = [
+            wrapper,
+            file
+        ];
         if (options.timeout) {
-            cmd += ' ' + options.timeout;
+            args.push(options.timeout);
         }
-        exec(cmd, function(err, stdout) {
+        var stdout = '';
+        var child = spawn('phantomjs', args);
+        child.stdout.on('data', function(data) {
+            stdout += data;
+        });
+        child.on('exit', function() {
             var results = JSON.parse(stdout);
             testResults.push(results);
             if (util.canPrint(options, results)) {
