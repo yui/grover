@@ -39,6 +39,9 @@ check(function(version) {
             util.log('  Using a ' + options.timeout + ' second timeout per test.');
         }
     }
+    if (options.server) {
+        require('../lib/server').start(options);
+    }
 
     if (options.exitOnFail) {
         util.log('--will exit on first test error');
@@ -58,7 +61,7 @@ var testResults = [],
 var run = function() {
     var file = options.paths.shift();
     if (file) {
-        if (!existsSync(file) && !file.match(/^https?:\/\//)) {
+        if (!existsSync(file) && !file.match(/^https?:\/\//) && !options.server) {
             if (util.canPrint(options)) {
                 util.error(':( Can not find file: ' + file);
             }
@@ -77,14 +80,19 @@ var run = function() {
         child.stdout.on('data', function(data) {
             stdout += data;
         });
-        child.on('exit', function() {
-            var results = JSON.parse(stdout);
-            testResults.push(results);
-            if (util.canPrint(options, results)) {
-                util.status(results);
-            }
-            if (options.exitOnFail && results.failed) {
-                process.exit(1);
+        child.on('exit', function(code) {
+            try {
+                var results = JSON.parse(stdout);
+                testResults.push(results);
+                if (util.canPrint(options, results)) {
+                    util.status(results);
+                }
+                if (options.exitOnFail && results.failed) {
+                    process.exit(1);
+                }
+            } catch (e) {
+                util.error('Failed to parse response for ' + args[1] + ', readding to queue');
+                options.paths.push(args[1]);
             }
             run();
         });
@@ -97,6 +105,9 @@ var run = function() {
 
 
 var done = function() {
+    if (options.server) {
+        require('../lib/server').stop();
+    }
     if (options.outfile && options.outtype) {
         var proc = require(path.join(__dirname, '../lib/process')),
             fs = require('fs'),
