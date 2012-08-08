@@ -144,6 +144,21 @@ suite.add(new YUITest.TestCase({
         Assert.areEqual(opts.paths.length, 2, 'Failed to parse paths');
         Assert.areEqual(opts.paths[0], 'http://localhost:300/foo.html', 'Failed to add prefix to first item');
         Assert.areEqual(opts.paths[1], 'http://localhost:300/path/to/file.html', 'Failed to add prefix to second item');
+    },
+    'check --server': function() {
+        var opts = parse(['--server', 'foo.html', 'path/to/file.html']);
+
+        Assert.areEqual(opts.paths.length, 2, 'Failed to parse paths');
+        Assert.areEqual(opts.server, process.cwd(), 'failed to set server config');
+        Assert.areEqual(opts.port, 4000, 'Failed to set default port');
+    },
+    'check --port 9000': function() {
+        var opts = parse(['--server', '--port', '9000', 'foo.html', 'path/to/file.html']);
+
+        Assert.areEqual(opts.paths.length, 2, 'Failed to parse paths');
+        Assert.areEqual(opts.server, process.cwd(), 'failed to set server config');
+        Assert.areEqual(opts.port, 9000, 'Failed to set port');
+        
     }
 }));
 
