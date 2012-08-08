@@ -19,7 +19,7 @@ YUITest.TestRunner.subscribe('complete', function() {
 
 var Assert = YUITest.Assert;
 
-var wrapper = path.join(__dirname, '../lib/wrapper.js');
+var wrapper = path.join(__dirname, '../lib/wrapper/wrapper.js');
 
 var runTest = function(file, timeout, cb) {
     if (!cb) {
