@@ -9,6 +9,7 @@ var path = require('path'),
     existsSync = fs.existsSync || path.existsSync,
     START = (new Date()).getTime(),
     util = require(path.join(__dirname, '../lib/')),
+    Table = require('cli-table'),
     check = function(cb) {
         exec('phantomjs --version', function(stdin, stdout, stderr) {
             var version = stdout.replace('\n', '');
@@ -24,7 +25,8 @@ var path = require('path'),
             failed: 0,
             ignored: 0,
             total: 0
-        }, proc, output, END;
+        }, proc, output, END,
+        coverage = [], covered = {}, table;
 
         if (options.server) {
             require('../lib/server').stop();
@@ -45,30 +47,17 @@ var path = require('path'),
             res.failed += json.failed;
             res.total += json.total;
             res.ignored += json.ignored;
-            if (json.jscoverage) {
-                res.jscoverage = res.jscoverage || {};
-                for (i in json.jscoverage) {
-                    res.jscoverage[i] = res.jscoverage[i] || {};
-                    res.jscoverage[i].hit = res.jscoverage[i].hit || 0;
-                    if (json.jscoverage[i].hit > res.jscoverage[i].hit) {
-                        res.jscoverage[i].hit = json.jscoverage[i].hit;
-                    }
-                    res.jscoverage[i].lines = json.jscoverage[i].lines;
-                    res.jscoverage[i].miss = (res.jscoverage[i].lines - res.jscoverage[i].hit);
-                }
-            }
-            if (json.yuiTestCoverage) {
-                res.jscoverage = res.jscoverage || {};
-                for (i in json.yuiTestCoverage) {
-                    res.jscoverage[i] = res.jscoverage[i] || {};
-                    res.jscoverage[i].hit = res.jscoverage[i].hit || 0;
-                    res.jscoverage[i].lines = res.jscoverage[i].lines || 0;
-                    res.jscoverage[i].miss = res.jscoverage[i].miss || 0;
+            if (json.coverage) {
+                res.coverage = res.coverage || {};
+                for (i in json.coverage) {
+                    res.coverage[i] = res.coverage[i] || {};
+                    res.coverage[i].calledLines = res.coverage[i].calledLines || 0;
+                    res.coverage[i].coveredLines = res.coverage[i].coveredLines || 0;
 
-                    res.jscoverage[i].hit += json.yuiTestCoverage[i].calledLines;
-                    res.jscoverage[i].lines += json.yuiTestCoverage[i].coveredLines;
-                    res.jscoverage[i].miss += (json.yuiTestCoverage[i].coveredLines - json.yuiTestCoverage[i].calledLines);
+                    res.coverage[i].calledLines += json.coverage[i].calledLines;
+                    res.coverage[i].coveredLines += json.coverage[i].coveredLines;
                 }
+
             }
         });
 
@@ -79,6 +68,73 @@ var path = require('path'),
         }
         if (res.failed) {
             process.exit(1);
+        }
+        if (options.coverage) {
+            util.log('Generating Coverage Report');
+            testResults.forEach(function(result) {
+                if (result.coverage) {
+                    Object.keys(result.coverage).forEach(function(file) {
+                        if (covered[file]) {
+                            var index = 0, info;
+                            coverage.forEach(function(info, i) {
+                                if (info.path === file) {
+                                    index = i;
+                                }
+                            });
+                            if (index && coverage[index]) {
+                                info = result.coverage[file];
+                                ['coveredLines', 'calledLines', 'coveredFunctions', 'calledFunctions'].forEach(function(key) {
+                                    coverage[index][key] = (info[key] > coverage[index][key]) ? info[key] : coverage[index][key];
+                                });
+                            }
+                        } else {
+                            covered[file] = true;
+                            coverage.push(result.coverage[file]);
+                        }
+                    });
+                }
+            });
+            table = new Table({
+                head: ['path', 'lines', '%', 'functions', '%' ],
+                colAligns: [ 'left', 'center', 'right', 'center', 'right'  ],
+                style: {
+                    'padding-left': 2,
+                    'padding-right': 2,
+                    head: ['blue']
+                }
+            });
+            coverage.forEach(function(row) {
+                if (row.lines) {
+                    var err,
+                        percentLine = Math.floor((row.calledLines / row.coveredLines) * 100),
+                        percentFunction = Math.floor((row.calledFunctions / row.coveredFunctions) * 100),
+                        cell = [
+                            row.path,
+                            row.calledLines + '/' + row.coveredLines,
+                            percentLine + '%',
+                            row.calledFunctions + '/' + row.coveredFunctions,
+                            percentFunction + '%',
+                        ];
+
+                    if (percentLine <= options.coverageWarn) {
+                        err = true;
+                        cell[1] = String(cell[1]).red;
+                        cell[2] = String(cell[2]).red;
+                    }
+                    if (percentFunction <= options.coverageWarn) {
+                        err = true;
+                        cell[3] = String(cell[3]).red;
+                        cell[4] = String(cell[4]).red;
+                    }
+                    if (err) {
+                        cell[0] = util.bad.red + ' ' + cell[0];
+                    } else {
+                        cell[0] = util.good.green + ' ' + cell[0];
+                    }
+                    table.push(cell);
+                }
+            });
+            console.log(table.toString());
         }
     },
     run = function() {
