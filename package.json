@@ -1,14 +1,15 @@
 {
     "name": "grover",
     "description": "PhantomJS wrapper for YUITest",
-    "version": "0.0.14",
+    "version": "0.0.15",
     "engines": { "node": ">=0.4.0" },
     "bin": {
         "grover": "./bin/grover.js"
     },
     "dependencies": {
         "colors": "*",
-        "yuitest": "*"
+        "yuitest": "*",
+        "cli-table": "*"
     },
     "devDependencies": {
         "jslint": "*",
