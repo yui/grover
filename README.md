@@ -104,13 +104,13 @@ Will print something like this:
     ✔ [Total]: Passed: 8 Failed: 0 Total: 8 (ignored 0) 97% 45/1/46
       [Timer] 1.114 seconds
     Generating Coverage Report
-    ┏━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━┓
-    ┃  path                 ┃  lines  ┃    %  ┃  functions  ┃     %  ┃
-    ┣━━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━╋━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━┫
-    ┃  ✔ /tests/foo.js      ┃  45/46  ┃  97%  ┃        6/6  ┃  100%  ┃
-    ┗━━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━┛
+    ┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┓
+    ┃  path            ┃  lines ┃    % ┃  functions ┃     % ┃
+    ┣━━━━━━━━━━━━━━━━━━╋━━━━━━━━╋━━━━━━╋━━━━━━━━━━━━╋━━━━━━━┫
+    ┃  ✔ /tests/foo.js ┃  45/46 ┃  97% ┃        6/6 ┃  100% ┃
+    ┗━━━━━━━━━━━━━━━━━━┻━━━━━━━━┻━━━━━━┻━━━━━━━━━━━━┻━━━━━━━┛
 
-**YOU MUST INTRUMENT YOUR OWN COVERAGE FILES, GROVER JUST GATHERS THE REPORT.**
+**YOU MUST INSTRUMENT YOUR OWN COVERAGE FILES, GROVER JUST GATHERS THE REPORT.**
 
 What's with the name?
 ---------------------
