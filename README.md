@@ -56,7 +56,7 @@ Commandline Arguments
            --junit JUnit XML export
        --server Starts a static file server in the CWD, tests should be relative to this directory
        --port <Number> The port to start the server on
-       --coverage Generate a coverage report and print it to the screen (you must intrument your own files with YUITest first)
+       --coverage Generate a coverage report and print it to the screen (you must instrument your own files with YUITest first)
        --coverage-warn <Number> The percentage to highlight as low coverage, default is 80
 
 Saving Results
