@@ -13,6 +13,8 @@ You must have the `phantomjs` command line tool installed prior to running this.
 
     npm -g install grover
 
+This works on Windows too, just make sure your `phantomjs.exe` executable is in your path.
+
 Build Status
 ------------
 
