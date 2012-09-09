@@ -9,7 +9,8 @@
     "dependencies": {
         "colors": "*",
         "yuitest": "*",
-        "cli-table": "*"
+        "cli-table": "*",
+        "echoecho": "*"
     },
     "devDependencies": {
         "jslint": "*",
