@@ -190,7 +190,16 @@ if (!options.paths.length) {
 }
 
 check(function(version) {
-    var i = 0;
+    var i = 0,
+        runTests = function () {
+            if (options.concurrent) {
+                for (i = 1; i < options.concurrent; i++) {
+                    run();
+                }
+            } else {
+                run();
+            }
+        };
     if (!version) {
         console.error('Please install the phantomjs binary in your path!');
         process.exit(1);
@@ -212,15 +221,13 @@ check(function(version) {
         util.log('--will exit on first test error');
     }
     if (options.run){
-        if (options.concurrent) {
-            for (i = 1; i < options.concurrent; i++) {
-                run();
-            }
-        } else {
-            run();
-        }
+        runTests();
     } else {
         util.log('not running tests, just serving them.');
+        process.on('SIGCONT', function() {
+            util.log('Received SIGCONT, continuing test execution');
+            runTests();
+        });
     }
 });
 

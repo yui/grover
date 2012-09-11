@@ -87,6 +87,13 @@ This will create a URL like:
 
     http://127.0.0.1:5000/tests/foo.html?filter=coverage
 
+You can add `--no-run` to have `grover` fire up the server and prep everything, but not execute the tests.
+This way you can access the `grover` server from another location (browser). If you want to continue
+running the tests after launching this way, simply send the process a `SIGCONT` signal (`kill -s SIGCONT [PID]`)
+and `grover` will start executing the tests like it normally would. This is handy if you have CLI tests that you 
+want to execute against the server before you want the Phantom tests to execute.
+
+
 YUITest Coverage
 ----------------
 
