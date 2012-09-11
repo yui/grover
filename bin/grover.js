@@ -211,12 +211,16 @@ check(function(version) {
     if (options.exitOnFail) {
         util.log('--will exit on first test error');
     }
-    if (options.concurrent) {
-        for (i = 1; i < options.concurrent; i++) {
+    if (options.run){
+        if (options.concurrent) {
+            for (i = 1; i < options.concurrent; i++) {
+                run();
+            }
+        } else {
             run();
         }
     } else {
-        run();
+        util.log('not running tests, just serving them.');
     }
 });
 
