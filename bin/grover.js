@@ -18,6 +18,7 @@ var path = require('path'),
     },
     testResults = [],
     counter = options.paths.length,
+    istanbul = require('istanbul'),
     done = function() {
         var res = {
             name: 'Total',
@@ -51,6 +52,7 @@ var path = require('path'),
                 res.coverage = res.coverage || {};
                 for (i in json.coverage) {
                     res.coverage[i] = res.coverage[i] || {};
+                    res.coverage[i].path = i;
                     res.coverage[i].calledLines = res.coverage[i].calledLines || 0;
                     res.coverage[i].coveredLines = res.coverage[i].coveredLines || 0;
 
@@ -89,6 +91,7 @@ var path = require('path'),
                             }
                         } else {
                             covered[file] = true;
+                            result.coverage[file].path = file;
                             coverage.push(result.coverage[file]);
                         }
                     });
@@ -165,6 +168,9 @@ var path = require('path'),
                     var results = JSON.parse(stdout);
                     testResults.push(results);
                     if (util.canPrint(options, results)) {
+                        if (results.coverageType && results.coverageType == 'istanbul') {
+                            results.coverage = istanbul.utils.toYUICoverage(results.coverage);
+                        }
                         util.status(results);
                     }
                     if (options.exitOnFail && results.failed) {
