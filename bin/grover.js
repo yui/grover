@@ -139,6 +139,9 @@ var path = require('path'),
             });
             console.log(table.toString());
         }
+        if (process.send) {
+            process.send({ done: true });
+        }
     },
     run = function() {
         var file = options.paths.shift(),
@@ -233,6 +236,12 @@ check(function(version) {
         process.on('SIGCONT', function() {
             util.log('Received SIGCONT, continuing test execution');
             runTests();
+        });
+        process.on('message', function (msg) {
+            if (msg.continue) {
+                util.log('Received parent message, continuing test execution');
+                runTests();
+            }
         });
     }
 });
