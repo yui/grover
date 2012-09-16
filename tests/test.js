@@ -150,7 +150,7 @@ suite.add(new YUITest.TestCase({
 
         Assert.areEqual(opts.paths.length, 2, 'Failed to parse paths');
         Assert.areEqual(opts.server, process.cwd(), 'failed to set server config');
-        Assert.areEqual(opts.port, 4000, 'Failed to set default port');
+        Assert.areEqual(opts.port, 7000, 'Failed to set default port');
     },
     'check --port 9000': function() {
         var opts = parse(['--server', '--port', '9000', 'foo.html', 'path/to/file.html']);
