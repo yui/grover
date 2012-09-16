@@ -17,8 +17,8 @@ var path = require('path'),
         });
     },
     testResults = [],
+    cover = require('../lib/coverage'),
     counter = options.paths.length,
-    istanbul = require('istanbul'),
     done = function() {
         var res = {
             name: 'Total',
@@ -42,6 +42,8 @@ var path = require('path'),
             fs.writeFileSync(options.outfile, output, 'utf8');
         }
 
+        cover.options(options);
+
         testResults.forEach(function(json) {
             var i;
             res.passed += json.passed;
@@ -49,22 +51,12 @@ var path = require('path'),
             res.total += json.total;
             res.ignored += json.ignored;
             if (json.coverage) {
-                res.coverage = res.coverage || {};
-                for (i in json.coverage) {
-                    res.coverage[i] = res.coverage[i] || {};
-                    res.coverage[i].path = i;
-                    res.coverage[i].calledLines = res.coverage[i].calledLines || 0;
-                    res.coverage[i].coveredLines = res.coverage[i].coveredLines || 0;
-
-                    res.coverage[i].calledLines += json.coverage[i].calledLines;
-                    res.coverage[i].coveredLines += json.coverage[i].coveredLines;
-                }
-
+                cover.set(json.coverage);
             }
         });
 
         END = (new Date()).getTime();
-        if (!options.silent && !options.quiet) {
+        if (!options.silent && !options.quiet && !options.coverage) {
             console.log('----------------------------------------------------------------');
             util.status(res, START, END);
         }
@@ -72,6 +64,8 @@ var path = require('path'),
             process.exit(1);
         }
         if (options.coverage) {
+            cover.report();
+            /*
             util.log('Generating Coverage Report');
             testResults.forEach(function(result) {
                 if (result.coverage) {
@@ -139,6 +133,18 @@ var path = require('path'),
             });
             console.log(table.toString());
         }
+        var collect = new istanbul.Collector();
+        testCoverage.forEach(function(item) {
+            collect.add(item);
+        });
+        collect.files().forEach(function(file) {
+            var fileCoverage = collect.fileCoverageFor(file);
+            console.log('Coverage for ' + file + ' is:', istanbul.utils.summarizeFileCoverage(fileCoverage));
+        });
+        */
+        console.log('----------------------------------------------------------------');
+        util.status(res, START, END);
+        }
         if (process.send) {
             process.send({ done: true });
         }
@@ -171,9 +177,6 @@ var path = require('path'),
                     var results = JSON.parse(stdout);
                     testResults.push(results);
                     if (util.canPrint(options, results)) {
-                        if (results.coverageType && results.coverageType == 'istanbul') {
-                            results.coverage = istanbul.utils.toYUICoverage(results.coverage);
-                        }
                         util.status(results);
                     }
                     if (options.exitOnFail && results.failed) {
