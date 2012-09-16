@@ -94,6 +94,32 @@ and `grover` will start executing the tests like it normally would. This is hand
 want to execute against the server before you want the Phantom tests to execute.
 
 
+Istanbul Coverage
+-----------------
+If you instrument your files with the [Istanbul Coverage Tool](https://github.com/gotwarlost/istanbul), you can 
+have `grover` show you your coverage report:
+
+    grover --coverage --coverage-warn 70 ./tests/*.html
+
+Will print something like this:
+
+    Starting Grover on 1 files with PhantomJS@1.6.1
+      Running 15 concurrent tests at a time.
+      starting grover server
+      assuming server root as /home/yui/src/yui3
+    ✔ [FOO]: Passed: 8 Failed: 0 Total: 8 (ignored 0) 97%
+    ----------------------------------------------------------------
+    ✔ [Total]: Passed: 8 Failed: 0 Total: 8 (ignored 0)
+      [Timer] 1.114 seconds
+    Generating Coverage Report
+    ┏━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━━┳━━━━━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━━━━━━━┳━━━━━━━━━━┓
+    ┃  path                ┃  lines  ┃       %  ┃  statements  ┃       %  ┃  functions  ┃     %  ┃  branches  ┃       %  ┃
+    ┣━━━━━━━━━━━━━━━━━━━━━━╋━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━━━━━╋━━━━━━━━━━╋━━━━━━━━━━━━━╋━━━━━━━━╋━━━━━━━━━━━━╋━━━━━━━━━━┫
+    ┃  ✖ build/foo/foo.js  ┃  45/46  ┃  97.83%  ┃       45/46  ┃  97.83%  ┃        6/6  ┃  100%  ┃     26/34  ┃  76.47%  ┃
+    ┗━━━━━━━━━━━━━━━━━━━━━━┻━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━━━┻━━━━━━━━━━┻━━━━━━━━━━━━━┻━━━━━━━━┻━━━━━━━━━━━━┻━━━━━━━━━━┛
+
+**YOU MUST INSTRUMENT YOUR OWN COVERAGE FILES, GROVER JUST GATHERS THE REPORT.**
+
 YUITest Coverage
 ----------------
 
@@ -108,9 +134,9 @@ Will print something like this:
       Running 15 concurrent tests at a time.
       starting grover server
       assuming server root as /home/yui/src/yui3
-    ✔ [FOO]: Passed: 8 Failed: 0 Total: 8 (ignored 0) 97% 45/1/46
+    ✔ [FOO]: Passed: 8 Failed: 0 Total: 8 (ignored 0) 97%
     ----------------------------------------------------------------
-    ✔ [Total]: Passed: 8 Failed: 0 Total: 8 (ignored 0) 97% 45/1/46
+    ✔ [Total]: Passed: 8 Failed: 0 Total: 8 (ignored 0)
       [Timer] 1.114 seconds
     Generating Coverage Report
     ┏━━━━━━━━━━━━━━━━━━┳━━━━━━━━┳━━━━━━┳━━━━━━━━━━━━┳━━━━━━━┓
