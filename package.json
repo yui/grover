@@ -7,7 +7,7 @@
         "grover": "./bin/grover.js"
     },
     "dependencies": {
-        "colors": "*",
+        "ansi-color": "*",
         "yuitest": "*",
         "cli-table": "*",
         "echoecho": "*",
