@@ -160,11 +160,15 @@ check(function(version) {
     } else {
         util.log('not running tests, just serving them.');
         process.on('SIGCONT', function() {
+            //Reset start timer because we were paused
+            START = (new Date()).getTime();
             util.log('Received SIGCONT, continuing test execution');
             runTests();
         });
         process.on('message', function (msg) {
             if (msg.continue) {
+                //Reset start timer because we were paused
+                START = (new Date()).getTime();
                 util.log('Received parent message, continuing test execution');
                 runTests();
             }
