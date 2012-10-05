@@ -16,11 +16,12 @@
 	"glob": "~3.1.12"
     },
     "devDependencies": {
-        "jslint": "*",
+        "yui-lint": "~0.1.1",
+        "jshint": "~0.9.0",
         "yuitest": "*"
     },
     "scripts": {
-        "pretest": "./node_modules/.bin/jslint --white --sloppy --node --stupid --nomen --plusplus --forin  ./bin/*.js ./lib/*.js",
+        "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js",
         "test": "./tests/test.sh"
     },
     "preferGlobal": "true"
