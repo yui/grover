@@ -43,7 +43,10 @@ var path = require('path'),
         }
 
         cover.options(options);
-
+        if (options.coverageFileName) {
+            //empty the coverage file
+            fs.writeFileSync(options.coverageFileName, '', 'utf8');
+        }
         testResults.forEach(function(json) {
             var i;
             res.passed += json.passed;
@@ -52,6 +55,9 @@ var path = require('path'),
             res.ignored += json.ignored;
             if (json.coverage) {
                 cover.set(json.coverage);
+                if (options.coverageFileName) {
+                    cover.printLcovReport(cover.lcovReport(json.coverage), options.coverageFileName);
+                }
             }
         });
 
