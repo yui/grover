@@ -43,9 +43,13 @@ var path = require('path'),
         }
 
         cover.options(options);
+
+        //Remove an exsisting coverage file if we are writing coverage data
         if (options.coverageFileName) {
-            //empty the coverage file
-            fs.writeFileSync(options.coverageFileName, '', 'utf8');
+            
+            if (path.exists(options.coverageFileName)) {
+                fs.unlinkSync(options.coverageFileName);
+            }
         }
         testResults.forEach(function(json) {
             var i;
@@ -56,7 +60,7 @@ var path = require('path'),
             if (json.coverage) {
                 cover.set(json.coverage);
                 if (options.coverageFileName) {
-                    cover.printLcovReport(cover.lcovReport(json.coverage), options.coverageFileName);
+                    cover.printLcovReport(json, options);
                 }
             }
         });
