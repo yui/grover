@@ -159,7 +159,72 @@ suite.add(new YUITest.TestCase({
         Assert.areEqual(opts.server, process.cwd(), 'failed to set server config');
         Assert.areEqual(opts.port, 9000, 'Failed to set port');
         
+    },
+    'check coverage prefix (sp)': function() {
+        var opts = parse(['-sp', '../']);
+
+        Assert.areEqual('../', opts.sourceFilePrefix, 'Failed to parse source file prefix.');
+    },
+    'check coverage prefix (sourceFilePrefix)': function() {
+        var opts = parse(['--sourceFilePrefix', '../']);
+
+        Assert.areEqual('../', opts.sourceFilePrefix, 'Failed to parse source file prefix.');
+    },
+    'check coverage filename (co)': function() {
+        var opts = parse(['-co', 'lcov.info']);
+
+        Assert.areEqual('lcov.info', opts.coverageFileName, 'Failed to parse coverage filename.');
+    },
+    'check coverage filename (coverageFileName)': function() {
+        var opts = parse(['--coverageFileName', 'lcov.info']);
+
+        Assert.areEqual('lcov.info', opts.coverageFileName, 'Failed to parse coverage filename.');
     }
+}));
+
+var cover = require(path.join(__dirname, '../lib/coverage'));
+
+suite.add(new YUITest.TestCase({
+    name: 'Coverage',
+    coverageData: {"foo.js": {
+        lines: {
+            '1': 1,
+            '2': 2,
+            '3': 3,
+            '4': 0
+        },
+        functions: {
+            'init:1': 1,
+            'foo:2': 2,
+            '(anonymous 1):3': 3
+        },
+        coveredLines: 4,
+        calledLines: 3,
+        coveredFunctions: 3,
+        calledFunctions: 3,
+        path: 'build/foo/foo.js'
+    }},
+    coverageFile: "TN:foo\n\
+SF:../foo.js\n\
+FN:1,init\n\
+FN:2,foo\n\
+FN:3,(anonymous 1)\n\n\
+FNDA:1,init\n\
+FNDA:2,foo\n\
+FNDA:3,(anonymous 1)\n\n\
+FNF:3\n\
+FNH:3\n\
+DA:1,1\n\
+DA:2,2\n\
+DA:3,3\n\
+DA:4,0\n\n\
+LF:4\n\
+LH:3\n\n\
+end_of_record\n",
+    'Should get lcov data for yui tests': function() {
+        var report = cover.getCoverageReport({name: 'foo', coverage: this.coverageData}, '../');
+        Assert.areEqual(this.coverageFile, report, 'Failed to produce correct lcov report.');
+    },
 }));
 
 

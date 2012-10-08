@@ -44,6 +44,13 @@ var path = require('path'),
 
         cover.options(options);
 
+        //Remove an exsisting coverage file if we are writing coverage data
+        if (options.coverageFileName) {
+            
+            if (existsSync(options.coverageFileName)) {
+                fs.unlinkSync(options.coverageFileName);
+            }
+        }
         testResults.forEach(function(json) {
             var i;
             res.passed += json.passed;
@@ -52,6 +59,9 @@ var path = require('path'),
             res.ignored += json.ignored;
             if (json.coverage) {
                 cover.set(json.coverage);
+                if (options.coverageFileName) {
+                    cover.printLcovReport(json, options);
+                }
             }
         });
 
