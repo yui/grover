@@ -186,7 +186,7 @@ var cover = require(path.join(__dirname, '../lib/coverage'));
 
 suite.add(new YUITest.TestCase({
     name: 'Coverage',
-    coverageData: {"foo.js": {
+    coverageData: {"build/foo/foo.js": {
         lines: {
             '1': 1,
             '2': 2,
@@ -204,8 +204,8 @@ suite.add(new YUITest.TestCase({
         calledFunctions: 3,
         path: 'build/foo/foo.js'
     }},
-    coverageFile: "TN:foo\n\
-SF:../foo.js\n\
+    coverageFile: "TN:lcov.info\n\
+SF:" + path.join(__dirname, 'build/foo/foo.js') + "\n\
 FN:1,init\n\
 FN:2,foo\n\
 FN:3,(anonymous 1)\n\n\
@@ -220,9 +220,12 @@ DA:3,3\n\
 DA:4,0\n\n\
 LF:4\n\
 LH:3\n\n\
-end_of_record\n",
+end_of_record\n\n",
     'Should get lcov data for yui tests': function() {
-        var report = cover.getCoverageReport({name: 'foo', coverage: this.coverageData}, '../');
+        cover.set(this.coverageData);
+        var report = cover.getCoverageReport({
+            sourceFilePrefix: './'
+        });
         Assert.areEqual(this.coverageFile, report, 'Failed to produce correct lcov report.');
     },
 }));
