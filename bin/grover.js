@@ -67,10 +67,11 @@ var path = require('path'),
             cover.report();
             console.log('----------------------------------------------------------------');
             util.status(res, START, END);
+            cover.save(options);
         }
-        cover.save(options);
         if (process.send) {
             process.send({ done: true });
+            process.exit(0);
         }
     },
     run = function() {
