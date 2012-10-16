@@ -25,7 +25,8 @@ var path = require('path'),
             passed: 0,
             failed: 0,
             ignored: 0,
-            total: 0
+            total: 0,
+            duration: 0
         }, proc, output, END,
         coverage = [], covered = {}, table;
 
@@ -50,6 +51,7 @@ var path = require('path'),
             res.failed += json.failed;
             res.total += json.total;
             res.ignored += json.ignored;
+            res.duration += json.duration;
             if (json.coverage) {
                 cover.set(json.coverage);
             }
