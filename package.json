@@ -11,7 +11,7 @@
         "yuitest": "*",
         "cli-table": "*",
         "echoecho": "*",
-        "istanbul": "*",
+        "istanbul": "~0.1.10",
         "express": "~2.5.0",
         "glob": "~3.1.12"
     },
