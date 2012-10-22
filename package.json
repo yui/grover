@@ -18,11 +18,28 @@
     "devDependencies": {
         "yui-lint": "~0.1.1",
         "jshint": "~0.9.0",
-        "yuitest": "*"
+        "vows": "*"
     },
+    "keywords": [
+        "yuitest",
+        "phantomjs",
+        "cli testing",
+        "testing"
+    ],
     "scripts": {
         "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js",
-        "test": "./tests/test.sh"
+        "test": "istanbul cover --print both vows -- --spec ./tests/grover.js ./tests/args.js"
     },
-    "preferGlobal": "true"
+    "preferGlobal": "true",
+    "bugs": { "url" : "http://github.com/davglass/grover/issues" },
+    "licenses":[
+        {
+            "type" : "BSD",
+            "url" : "https://github.com/davglass/grover/blob/master/LICENSE"
+        }
+    ],
+    "repository": {
+        "type":"git",
+        "url":"http://github.com/davglass/grover.git"
+    }
 }
