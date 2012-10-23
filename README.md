@@ -6,6 +6,7 @@ files inside of PhantomJS.
 
 This release supports exiting with the proper exit code to fail a build.
 
+
 Installation
 ------------
 
