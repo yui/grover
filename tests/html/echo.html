@@ -1,0 +1,29 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test One</title>
+</head>
+<body>
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script>
+var jsonp;
+var MINE = function(o){
+    jsonp = o;
+};
+YUI().use('test', function(Y) {
+    var suite = new Y.Test.Suite('echoecho suite');
+
+    suite.add(new Y.Test.Case({
+        name: "echoecho",
+        'test: bogus test': function() {
+            Y.Assert.isObject(jsonp);
+        }
+    }));
+    Y.Test.Runner.add(suite);
+    Y.Test.Runner.run();
+});
+</script>
+<script src="/does/not/exist.js"></script>
+<script src="echo/jsonp?callback=MINE"></script>
+</body>
+</html>
