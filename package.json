@@ -6,6 +6,7 @@
     "bin": {
         "grover": "./bin/grover.js"
     },
+    "main": "./lib/grover.js",
     "dependencies": {
         "ansi-color": "*",
         "yuitest": "*",
@@ -27,8 +28,8 @@
         "testing"
     ],
     "scripts": {
-        "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js",
-        "test": "istanbul cover --print both vows -- --spec ./tests/grover.js ./tests/args.js"
+        "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js ./bin/*.js",
+        "test": "istanbul cover --print both vows -- --spec ./tests/*.js"
     },
     "preferGlobal": "true",
     "bugs": { "url" : "http://github.com/davglass/grover/issues" },
