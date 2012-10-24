@@ -1,7 +1,9 @@
 var vows = require('vows'),
     assert = require('assert'),
     grover = require('../lib/grover'),
-    timer = require('../lib/').timer;
+    chars = require('../lib/chars'),
+    timer = require('../lib/').timer,
+    platform = process.platform;
 
 var tests = {
     //No way to simulate this without hourly tests
@@ -24,6 +26,37 @@ var tests = {
         },
         'should print': function(topic) {
             assert.equal(topic, '21 minutes, 1 seconds');
+        }
+    },
+    'chars': {
+        topic: function() {
+            return chars;
+        },
+        'should return a good string': function(char) {
+            assert.isString(char.good);
+        },
+        'should return a bad string': function(char) {
+            assert.isString(char.bad);
+        },
+        'should return unix good char': function(char) {
+            process.platform = 'linux';
+            assert.equal(char.good, "✔");
+            process.platform = platform;
+        },
+        'should return unix bad char': function(char) {
+            process.platform = 'linux';
+            assert.equal(char.bad, "✖");
+            process.platform = platform;
+        },
+        'should return win32 good char': function(char) {
+            process.platform = 'win32';
+            assert.equal(char.good, "OK");
+            process.platform = platform;
+        },
+        'should return win32 bad char': function(char) {
+            process.platform = 'win32';
+            assert.equal(char.bad, "X");
+            process.platform = platform;
         }
     },
     'test canPrint': {
