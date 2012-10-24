@@ -105,6 +105,27 @@ var tests = {
             assert.ok(json.error);
         }
     },
+    'should print outfile': {
+        topic: function() {
+            var self = this;
+            runTest('./html/error.html', function(err, json) {
+                self.callback(null, json);
+            });
+        },
+        'and have suite name': function(json) {
+            var p = path.join(__dirname, './html/error.html');
+            assert.equal(json.name, p);
+        },
+        'and should have 0 passing tests': function(json) {
+            assert.equal(json.passed, 0);
+        },
+        'and should have 1 failing test': function(json) {
+            assert.equal(json.failed, 1);
+        },
+        'and should have 1 error message': function(json) {
+            assert.ok(json.error);
+        }
+    },
     'should handle bad file': {
         topic: function() {
             var self = this,

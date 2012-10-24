@@ -17,6 +17,9 @@ var tests = {
                 null,
                 '--concurrent',
                 '5',
+                '--outfile',
+                path.join(__dirname, 'out/tap.info'),
+                '--tap',
                 '--no-run',
                 path.join(__dirname, './html/good.html'),
                 path.join(__dirname, './html/bad.html'),
@@ -28,6 +31,7 @@ var tests = {
             });
             setTimeout(function() {
                 process.emit('message',  { 'continue': true });
+                process.emit('message',  { 'foo': true });
             }, 300);
         },
         'should have results': function(topic) {
@@ -65,6 +69,14 @@ var tests = {
                 return (item.name.indexOf('error.html') > -1);
             });
             assert.equal(topics[0].failed, 1);
+        },
+        'should have an outfile': {
+            topic: function() {
+                return util.existsSync(path.join(__dirname, 'out/tap.info'));
+            },
+            'and it exists': function(topic) {
+                assert.isTrue(topic);
+            }
         }
     }
 };

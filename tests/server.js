@@ -31,11 +31,12 @@ var tests = {
                 _exit = util.exit;
 
             util.exit = function() {};
+
             process.argv = [
                 null,
                 null,
                 '--timeout',
-                '8',
+                '5',
                 '--prefix',
                 '/',
                 '--concurrent',
@@ -44,15 +45,16 @@ var tests = {
                 path.join(__dirname, './html/good.html'),
                 path.join(__dirname, './html/bad.html'),
                 path.join(__dirname, './html/error.html'),
-                path.join(__dirname, './html/echo.html')
+                path.join(__dirname, './html/echo.html'),
+                path.join(__dirname, './html/')
             ];
             grover.process(function(err, results) {
                 util.exit = _exit;
                 self.callback(null, results);
             });
         },
-        'should have 4 sets of results': function(topic) {
-            assert.equal(topic.length, 4);
+        'should have 5 sets of results': function(topic) {
+            assert.equal(topic.length, 5);
         },
         'should have 50 passing tests in Suite #1': function(topic) {
             var topics = topic.filter(function(item) {
@@ -95,123 +97,161 @@ var tests = {
         },
         'should have done status': function() {
             assert.ok(statuses.done);
-        }
-    },
-    'should start on port 7001': {
-        topic: function() {
-            var self = this,
-                _exit = util.exit;
-
-            util.exit = function() {};
-
-            server.start({
-                paths: [],
-                server: path.join(__dirname, './tests'),
-                port: 7001,
-                silent: true,
-                run: true
-            }, this.callback);
-
         },
-        'and should have server listening': {
-            topic: function(topic) {
-                var self = this;
-                http.get({
-                    url: '127.0.0.1',
-                    port: 7001
-                }, function(res) {
-                    cont.emit('server2');
-                    self.callback(null, res.statusCode);
+        'should start on port 7001': {
+            topic: function() {
+                var self = this,
+                    _exit = util.exit;
 
-                    try{ topic.close(); } catch (e) {};
-                });
+                util.exit = function() {};
+
+                delete process.send;
+                server.start({
+                    paths: [],
+                    server: path.join(__dirname, './tests'),
+                    port: 7001,
+                    silent: true,
+                    run: true
+                }, this.callback);
+
             },
-            'should serve a 404 as the default': function(topic) {
-                assert.equal(topic, 404);
-            },
-            'should error when started on port 7001': {
-                topic: function() {
-                    var self = this,
-                        _exit = util.exit,
-                        code;
+            'and should have server listening': {
+                topic: function(topic) {
+                    var self = this;
+                    http.get({
+                        url: '127.0.0.1',
+                        port: 7001
+                    }, function(res) {
+                        cont.emit('server2');
+                        self.callback(null, res.statusCode);
 
-                    util.exit = function(c) {
-                        code = c;
-                    };
-
-                    server.start({
-                        paths: [],
-                        server: path.join(__dirname, './tests'),
-                        port: 7001,
-                        silent: true,
-                        run: false
-                    }, function(e, server) {
-                        util.exit = _exit;
-                        try{ server.close(); } catch (e) {};
-                        self.callback(null, {
-                            error: e,
-                            code: code
-                        });
+                        try{ topic.close(); } catch (e) {};
                     });
-
                 },
-                'and should throw an error': function (topic) {
-                    assert.ok(topic.error);
+                'should serve a 404 as the default': function(topic) {
+                    assert.equal(topic, 404);
+                },
+                'should error when started on port 7001': {
+                    topic: function() {
+                        var self = this,
+                            _exit = util.exit,
+                            code;
+
+                        util.exit = function(c) {
+                            code = c;
+                        };
+
+                        server.start({
+                            paths: [],
+                            server: path.join(__dirname, './tests'),
+                            port: 7001,
+                            silent: true,
+                            run: false
+                        }, function(e, server) {
+                            util.exit = _exit;
+                            try{ server.close(); } catch (e) {};
+                            self.callback(null, {
+                                error: e,
+                                code: code
+                            });
+                        });
+
+                    },
+                    'and should throw an error': function (topic) {
+                        assert.ok(topic.error);
+                    }
                 }
+            }
+        },
+        'should error when started on port 80': {
+            topic: function() {
+                var self = this,
+                    _exit = util.exit,
+                    code;
+
+                util.exit = function(c) {
+                    code = c;
+                };
+
+                server.start({
+                    paths: [],
+                    server: path.join(__dirname, './tests'),
+                    port: 80,
+                    quiet: true,
+                    run: true
+                }, function(e, server) {
+                    util.exit = _exit;
+                    try{ server.close(); } catch (e) {};
+                    self.callback(null, {
+                        error: e,
+                        code: code
+                    });
+                });
+
+            },
+            'and should throw an error': function (topic) {
+                assert.ok(topic.error);
+            }
+        },
+        'should error when started on port 80': {
+            topic: function() {
+                var self = this,
+                    _exit = util.exit;
+
+                util.exit = function(code) {
+                    util.exit = _exit;
+                    self.callback(null, code);
+                };
+
+                server.start({
+                    paths: [],
+                    server: path.join(__dirname, './tests'),
+                    port: 80,
+                    quiet: true,
+                    run: true
+                });
+
+            },
+            'and should exit 1': function (topic) {
+                assert.equal(topic, 1);
             }
         }
     },
-    'should error when started on port 80': {
-        topic: function() {
-            var self = this,
-                _exit = util.exit,
-                code;
-
-            util.exit = function(c) {
-                code = c;
-            };
-
-            server.start({
-                paths: [],
-                server: path.join(__dirname, './tests'),
-                port: 80,
-                quiet: true,
-                run: true
-            }, function(e, server) {
-                util.exit = _exit;
-                try{ server.close(); } catch (e) {};
-                self.callback(null, {
-                    error: e,
-                    code: code
-                });
-            });
-
+    'showError': {
+        'should default to console': {
+            topic: function() {
+                this.callback(null, server.showError({
+                    port: 'FAKE'
+                }, {
+                    code: 'Fake Error',
+                    toString: function() {
+                        return 'Fake Error'
+                    }
+                }));
+            },
+            'should give fake error': function(topic)  {
+                assert.ok(topic);
+                assert.equal(topic, 'Grover Error\nFake Error');
+            }
         },
-        'and should throw an error': function (topic) {
-            assert.ok(topic.error);
+        'should parse EADDRINUSE': {
+            topic: function() {
+                this.callback(null, server.showError({
+                    port: '8000'
+                }, {
+                    code: 'EADDRINUSE',
+                    toString: function() {
+                        return 'EADDRINUSE'
+                    }
+                }));
+            },
+            'and should give readable error': function(topic)  {
+                assert.ok(topic);
+                assert.equal(topic, 'Grover Error\nPort 8000 is in use, try a different one!\n');
+            }
         }
     }
 };
 
 vows.describe('server').addBatch(tests).export(module);
 
-var other = {
-    'showError should default to console': {
-        topic: function() {
-            this.callback(null, server.showError({
-                port: 'FAKE'
-            }, {
-                code: 'Fake Error',
-                toString: function() {
-                    return 'Fake Error'
-                }
-            }));
-        },
-        'should give fake error': function(topic)  {
-            assert.ok(topic);
-            assert.equal(topic, 'Grover Error\nFake Error');
-        }
-    }
-};
-
-vows.describe('server: other').addBatch(other).export(module);
