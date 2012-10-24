@@ -3,9 +3,31 @@ var vows = require('vows'),
     grover = require('../lib/grover'),
     chars = require('../lib/chars'),
     timer = require('../lib/').timer,
+    Stack = require('../lib/stack').Stack,
     platform = process.platform;
 
 var tests = {
+    'stack should produce errors': {
+        topic: function(){
+            var self = this,
+            stack = new Stack(),
+            fn = stack.add(function() {
+            });
+
+            fn(null);
+            fn('error', null);
+
+            stack.done(function() {
+                self.callback(null, stack);
+            });
+        },
+        'should produce 1 error': function(topic) {
+            assert.equal(topic.errors.length, 1);
+        },
+        'should produce 1 result': function(topic) {
+            assert.equal(topic.results.length, 1);
+        }
+    },
     //No way to simulate this without hourly tests
     'timer should work with hours': {
         topic: function() {
