@@ -114,7 +114,7 @@ var tests = {
 
         },
         'and should have server listening': {
-            topic: function() {
+            topic: function(topic) {
                 var self = this;
                 http.get({
                     url: '127.0.0.1',
@@ -122,6 +122,8 @@ var tests = {
                 }, function(res) {
                     cont.emit('server2');
                     self.callback(null, res.statusCode);
+
+                    try{ topic.close(); } catch (e) {};
                 });
             },
             'should serve a 404 as the default': function(topic) {
@@ -145,6 +147,7 @@ var tests = {
                         run: false
                     }, function(e, server) {
                         util.exit = _exit;
+                        try{ server.close(); } catch (e) {};
                         self.callback(null, {
                             error: e,
                             code: code
@@ -176,6 +179,7 @@ var tests = {
                 run: true
             }, function(e, server) {
                 util.exit = _exit;
+                try{ server.close(); } catch (e) {};
                 self.callback(null, {
                     error: e,
                     code: code
