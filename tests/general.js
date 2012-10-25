@@ -1,6 +1,7 @@
 var vows = require('vows'),
     assert = require('assert'),
     grover = require('../lib/grover'),
+    util = require('../lib/index'),
     chars = require('../lib/chars'),
     timer = require('../lib/').timer,
     Stack = require('../lib/stack').Stack,
@@ -42,6 +43,26 @@ var tests = {
         },
         'we are good': function(topic) {
             assert.ok(topic);
+        }
+    },
+    'test color with no terminal': {
+        topic: function() {
+            var isTTY = process.stdout.isTTY;
+            process.stdout.isTTY = false;
+            var out = util.color('foo', 'red');
+            process.stdout.isTTY = isTTY;
+            return out;
+        },
+        'and output should be same as input': function(topic) {
+            assert.equal(topic, 'foo');
+        },
+        'and with color': {
+            topic: function() {
+                return util.color('foo', 'red');
+            }
+        },
+        'should not be the same as input': function(topic) {
+            assert.notEqual(topic, 'red');
         }
     },
     //No way to simulate this without hourly tests

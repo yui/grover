@@ -30,6 +30,92 @@ var vows = require('vows'),
 //Testing overrides
 
 var tests = {
+    'test response error': {
+        topic: function() {
+            var _test = grover.test,
+                options = {
+                    concurrent: 2,
+                    paths: [
+                        'one.html',
+                        'two.html',
+                        'three.html'
+                    ]
+                },
+                self = this,
+                res = {},
+                done = false;
+
+            grover.test = function(options, file, callback) {
+                if (!done) {
+                    done = true;
+                    res.count = options.paths.length;
+                    callback('failed to parse');
+                    res.count2 = options.paths.length;
+                } else {
+                    callback(null, { result: file });
+                }
+            };
+            grover.dispatch(options, function(err, results) {
+                res.results = results;
+                grover.test = _test;
+                self.callback(null, res);
+            });
+        
+        },
+        'should have 2 paths': function(topic) {
+            assert.equal(topic.count, 2);
+        },
+        'should have 0 after paths': function(topic) {
+            assert.equal(topic.count2, 0);
+        },
+        'should have 3 results': function(topic) {
+            assert.equal(topic.results.length, 3);
+        }
+    },
+    'test version check': {
+        topic: function() {
+            var _check = grover.check,
+                _exit = util.exit,
+                _error = console.error,
+                self = this,
+                msg;
+            
+            console.error = function(str) {
+                msg = str;
+            };
+            util.exit = function(code) {
+                grover.check = _check;
+                util.exit = _exit;
+                console.error = _error;
+                self.callback(null, {
+                    code: code,
+                    message: msg
+                });
+            };
+
+            grover.check = function(callback) {
+                callback(null);
+            };
+            grover.init({}, function() {
+            });
+        
+        },
+        'should exit code 1': function(topic) {
+            assert.equal(topic.code, 1);
+        },
+        'should throw proper error': function(topic) {
+            assert.equal(topic.message, 'Please install the phantomjs binary in your path!');
+        }
+    },
+    'should return error on failed response parse': {
+        topic: function() {
+            return grover.parseResponse({}, 'foo/bar.js', '( not good jSON)');
+        },
+        'should return error string': function(topic) {
+            assert.equal(topic[0], 'foo/bar.js');
+            assert.isUndefined(topic[1]);
+        }
+    },
     'should execute a good test': {
         topic: function() {
             var self = this;
@@ -77,9 +163,6 @@ var tests = {
         },
         'and should have 5 failing tests': function(json) {
             assert.equal(json.json.failed, 5);
-        },
-        'and should exit': function(json) {
-            assert.equal(json.code, 1);
         }
     },
     'should handle errors': {
@@ -159,6 +242,41 @@ var tests = {
             assert.equal(json.json.failed, 1);
         }
     },
+    'should handle bad file -- silent': {
+        topic: function() {
+            var self = this,
+                _exit = util.exit,
+                _error = util.error,
+                code,
+                msg;
+            util.exit = function(c) {
+                code = c;
+            };
+            util.error = function(m) {
+                msg = m;
+            };
+            runTest('./html/noexist.html', [
+                'silent', true
+            ], function(err, json) {
+                util.exit = _exit;
+                util.erro = _error;
+                self.callback(null, {
+                    code: code,
+                    message: msg,
+                    json: json
+                });
+            });
+        },
+        'and should exit code 1': function(json) {
+            //assert.equal(json.code, 1);
+        },
+        'and should throw error': function(json) {
+            assert.isUndefined(json.message);
+        },
+        'and should have one failed test': function(json) {
+            assert.equal(json.json.failed, 1);
+        }
+    },
     'should handle timeouts': {
         topic: function() {
             var self = this;
@@ -182,7 +300,18 @@ var tests = {
         'and should show timeout error message': function(json) {
             assert.equal(json.error, 'Script Timeout');
         }
-    }
+    },
+    'grover.done should not throw with no arguments': {
+        topic: function() {
+            return {
+                results: grover.done()
+            };
+        },
+        'should be undefined': function(topic) {
+            assert.ok(topic);
+            assert.isUndefined(topic.results);
+        }
+    },
 };
 
 vows.describe('grover').addBatch(tests).export(module);

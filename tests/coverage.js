@@ -175,6 +175,33 @@ var tests = {
                 }
             }
         }
+    },
+    'test path sorting': {
+        topic: function() {
+            return cover.pathSort;
+        },
+        'should be a function': function(topic) {
+            assert.isFunction(topic);
+        },
+        'should sort up': {
+            topic: function(topic) {
+                var items = [
+                    { foo: 'bar' },
+                    { path: 'b/c.js' },
+                    { path: 'a/a.js' },
+                    { path: 'a/c.js' },
+                ];
+                return items.sort(topic);
+            },
+            'and they are ordered': function(topic) {
+                assert.deepEqual(topic, [
+                    { foo: 'bar' },
+                    { path: 'a/a.js' },
+                    { path: 'a/c.js' },
+                    { path: 'b/c.js' }
+                ]);
+            }
+        }
     }
 };
 
