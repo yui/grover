@@ -503,8 +503,8 @@ var tests = {
                 process.platform = _platform;
                 return ret;
             },
-            'should expand 5 paths': function(topic) {
-                assert.equal(topic.paths.length, 5);
+            'should expand 7 paths': function(topic) {
+                assert.equal(topic.paths.length, 7);
             }
         },
         'no files': {
