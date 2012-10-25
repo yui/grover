@@ -28,6 +28,22 @@ var tests = {
             assert.equal(topic.results.length, 1);
         }
     },
+    'log.error should not exit': {
+        topic: function() {
+            var util = require('../lib/index');
+            var _exit = util.exit;
+            util.exit = function() {
+                assert.ok(false);
+            };
+
+            util.error('This is a test');
+            util.exit = _exit;
+            return true;
+        },
+        'we are good': function(topic) {
+            assert.ok(topic);
+        }
+    },
     //No way to simulate this without hourly tests
     'timer should work with hours': {
         topic: function() {
