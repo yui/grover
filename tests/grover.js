@@ -5,6 +5,7 @@ var vows = require('vows'),
     wrapper = path.join(__dirname, '../lib/wrapper/wrapper.js'),
     grover = require('../lib/grover'),
     util = require('../lib/'),
+    log = require('../lib/log'),
     runTest = function(file, timeout, cb) {
         if (!cb) {
             cb = timeout;
@@ -76,11 +77,11 @@ var tests = {
         topic: function() {
             var _check = grover.check,
                 _exit = util.exit,
-                _error = console.error,
+                _error = log.error,
                 self = this,
                 msg;
             
-            console.error = function(str) {
+            log.error = function(str) {
                 msg = str;
             };
             util.exit = function(code) {

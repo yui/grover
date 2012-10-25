@@ -3,6 +3,10 @@ var vows = require('vows'),
     path = require('path'),
     parse = require(path.join(__dirname, '../lib/options')).parse;
 
+var log = require('../lib/log');
+
+log.log = log.error = function(str) { return str; };
+
 var tests = {
     'check timeout number shorthand': {
         topic: function() {
