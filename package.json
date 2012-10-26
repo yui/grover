@@ -1,11 +1,12 @@
 {
     "name": "grover",
     "description": "PhantomJS wrapper for YUITest",
-    "version": "0.0.30",
+    "version": "0.1.0",
     "engines": { "node": ">=0.4.0" },
     "bin": {
         "grover": "./bin/grover.js"
     },
+    "main": "./lib/grover.js",
     "dependencies": {
         "ansi-color": "*",
         "yuitest": "*",
@@ -18,6 +19,7 @@
     "devDependencies": {
         "yui-lint": "~0.1.1",
         "jshint": "~0.9.0",
+        "rimraf": "*",
         "vows": "*"
     },
     "keywords": [
@@ -27,8 +29,8 @@
         "testing"
     ],
     "scripts": {
-        "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js",
-        "test": "istanbul cover --print both vows -- --spec ./tests/grover.js ./tests/args.js"
+        "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js ./bin/*.js",
+        "test": "istanbul cover --print both vows -- --spec ./tests/*.js"
     },
     "preferGlobal": "true",
     "bugs": { "url" : "http://github.com/davglass/grover/issues" },

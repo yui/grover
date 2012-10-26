@@ -2,3 +2,5 @@ node_modules
 npm-debug.log
 .*.swp
 coverage
+tests/out/*.info
+tests/report/

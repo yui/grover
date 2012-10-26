@@ -3,6 +3,10 @@ var vows = require('vows'),
     path = require('path'),
     parse = require(path.join(__dirname, '../lib/options')).parse;
 
+var log = require('../lib/log');
+
+log.log = log.error = function(str) { return str; };
+
 var tests = {
     'check timeout number shorthand': {
         topic: function() {
@@ -102,6 +106,30 @@ var tests = {
         'should add prefix': function(topic) {
             assert.equal(topic.paths[0], 'http://localhost:300/foo.html?foo=bar');
             assert.equal(topic.paths[1], 'http://localhost:300/path/to/file.html?foo=bar');
+        }
+    },
+    'check prefix -- without suffix': {
+        topic: function() {
+            return parse(['-p', 'http://localhost:300/', 'foo.html', 'path/to/file.html']);
+        },
+        'should parse paths': function(topic) {
+            assert.equal(topic.paths.length, 2);
+        },
+        'should add prefix': function(topic) {
+            assert.equal(topic.paths[0], 'http://localhost:300/foo.html');
+            assert.equal(topic.paths[1], 'http://localhost:300/path/to/file.html');
+        }
+    },
+    'check suffix -- without prefix': {
+        topic: function() {
+            return parse(['-S', '.php', 'foo.html', 'path/to/file.html']);
+        },
+        'should parse paths': function(topic) {
+            assert.equal(topic.paths.length, 2);
+        },
+        'should add prefix': function(topic) {
+            assert.equal(topic.paths[0], 'foo.html.php');
+            assert.equal(topic.paths[1], 'path/to/file.html.php');
         }
     },
     'check prefix -- shorthand': {
@@ -221,6 +249,17 @@ var tests = {
     'check --import': {
         topic: function() {
             return parse(['--import', './tests/build/import.js']);
+        },
+        'should be path': function(topic) {
+            assert.equal(topic['import'], path.join(__dirname, '../tests/build/import.js'));
+        },
+        'should have 3 paths from import': function(topic) {
+            assert.equal(topic.paths.length, 3);
+        }
+    },
+    'check --import full path': {
+        topic: function() {
+            return parse(['--import', path.join(__dirname, '../tests/build/import.js')]);
         },
         'should be path': function(topic) {
             assert.equal(topic['import'], path.join(__dirname, '../tests/build/import.js'));
@@ -457,6 +496,32 @@ var tests = {
         },
         'should print error': function(topic) {
             assert.ok(topic);
+        }
+    },
+    'getPaths': {
+        'good files': {
+            topic: function() {
+                var _platform = process.platform;
+                process.platform = 'win32';
+                var ret = parse(['./tests/html/*.html']);
+                process.platform = _platform;
+                return ret;
+            },
+            'should expand 7 paths': function(topic) {
+                assert.equal(topic.paths.length, 7);
+            }
+        },
+        'no files': {
+            topic: function() {
+                var _platform = process.platform;
+                process.platform = 'win32';
+                var ret = parse(['./tests/html/*.php']);
+                process.platform = _platform;
+                return ret;
+            },
+            'should expand 0 paths': function(topic) {
+                assert.equal(topic.paths.length, 0);
+            }
         }
     }
 };
