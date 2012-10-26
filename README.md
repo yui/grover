@@ -21,6 +21,11 @@ Build Status
 
 [![Travis Build Status](https://secure.travis-ci.org/davglass/grover.png?branch=master)](http://travis-ci.org/davglass/grover)
 
+Code Coverage
+-------------
+
+[Latest code coverage report is available here](http://davglass.github.com/grover/lib/index.html)
+
 Output
 ------
 
@@ -99,6 +104,8 @@ This way you can access the `grover` server from another location (browser). If 
 running the tests after launching this way, simply send the process a `SIGCONT` signal (`kill -s SIGCONT [PID]`)
 and `grover` will start executing the tests like it normally would. This is handy if you have CLI tests that you 
 want to execute against the server before you want the Phantom tests to execute.
+
+Grover also supports my [echoecho](https://github.com/davglass/echoecho) module by default.
 
 
 Istanbul Coverage
