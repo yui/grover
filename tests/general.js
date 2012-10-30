@@ -3,7 +3,6 @@ var vows = require('vows'),
     grover = require('../lib/grover'),
     util = require('../lib/index'),
     chars = require('../lib/chars'),
-    timer = require('../lib/').timer,
     Stack = require('../lib/stack').Stack,
     platform = process.platform;
 
@@ -63,28 +62,6 @@ var tests = {
         },
         'should not be the same as input': function(topic) {
             assert.notEqual(topic, 'red');
-        }
-    },
-    //No way to simulate this without hourly tests
-    'timer should work with hours': {
-        topic: function() {
-            var start = new Date('1/1/2010 3:00:00'),
-                end = new Date('1/1/2110 5:43:21');
-            return timer(start.getTime(), end.getTime());
-        },
-        'should print': function(topic) {
-            assert.equal(topic, '2 hours, 43 minutes, 21 seconds');
-        }
-    },
-    //No way to simulate this without tests taking forever
-    'timer should work with minutes': {
-        topic: function() {
-            var start = new Date('1/1/2010 3:00:00'),
-                end = new Date('1/1/2110 3:21:01');
-            return timer(start.getTime(), end.getTime());
-        },
-        'should print': function(topic) {
-            assert.equal(topic, '21 minutes, 1 seconds');
         }
     },
     'chars': {
