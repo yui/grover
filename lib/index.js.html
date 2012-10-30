@@ -181,16 +181,16 @@
     <h1>Code coverage report for <span class='entity'>lib/index.js</span></h1>
     <h2>
         
-        Statements: <span class='metric'>100% <small>(67 / 67)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class='metric'>100% <small>(53 / 53)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class='metric'>95.83% <small>(46 / 48)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class='metric'>95.45% <small>(42 / 44)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class='metric'>100% <small>(10 / 10)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class='metric'>100% <small>(9 / 9)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class='metric'>100% <small>(67 / 67)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class='metric'>100% <small>(53 / 53)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; index.js</div>
@@ -315,35 +315,10 @@
 116
 117
 118
-119
-120
-121
-122
-123
-124
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134
-135
-136
-137
-138
-139
-140
-141
-142
-143
-144
-145</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+119</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -367,33 +342,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">27</span>
-<span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">26</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">28</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">288</span>
@@ -483,12 +431,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
-<span class="cline-any cline-yes">11</span>
+<span class="cline-any cline-yes">10</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var color = require('ansi-color').set;
 var cover = require('./coverage');
 //Moved to another file so it's easy to edit on windows.
 var chars = require('./chars');
+var timethat = require('timethat');
 &nbsp;
 var log = require('./log');
 &nbsp;
@@ -512,33 +461,6 @@ var good = chars.good,
 mods = {
     exists: fs.exists || <span class="branch-1 cbranch-no" title="branch not covered" >path.exists,</span>
     existsSync: fs.existsSync || <span class="branch-1 cbranch-no" title="branch not covered" >path.existsSync,</span>
-    timer: function(start, end) {
-        var total = end - start,
-            diff = {}, str = '';
-&nbsp;
-        diff.seconds_raw = (total/1000);
-&nbsp;
-        diff.days = Math.floor(total/1000/60/60/24);
-        total -= diff.days*1000*60*60*24;
-&nbsp;
-        diff.hours = Math.floor(total/1000/60/60);
-        total -= diff.hours*1000*60*60;
-&nbsp;
-        diff.minutes = Math.floor(total/1000/60);
-        total -= diff.minutes*1000*60;
-&nbsp;
-        diff.seconds = Math.floor(total/1000);
-&nbsp;
-        if (diff.hours) {
-            str = diff.hours + ' hours, ' + diff.minutes + ' minutes, ' + diff.seconds + ' seconds';
-        } else if (diff.minutes) {
-            str = diff.minutes + ' minutes, ' + diff.seconds + ' seconds';
-        } else {
-            str = diff.seconds_raw + ' seconds';
-        }
-&nbsp;
-        return str;
-    },
     color: function (str, code) {
         if (!process.stdout.isTTY) {
             return str;
@@ -579,7 +501,7 @@ mods = {
             e = s + json.duration;
 &nbsp;
         if (json.duration) {
-            str += ' (' + mods.timer(s, e) + ')';
+            str += ' (' + timethat.calc(s, e) + ')';
         }
 &nbsp;
 &nbsp;
@@ -617,7 +539,7 @@ mods = {
         }
 &nbsp;
         if (start &amp;&amp; end) {
-            exports.log('  [Grover Execution Timer] ' + mods.timer(start, end));
+            exports.log('  [Grover Execution Timer] ' + timethat.calc(start, end));
         }
 &nbsp;
     },
@@ -634,7 +556,7 @@ for (i in mods) {
 
 </div>
 <div class='footer'>
-    <div class='meta'>Generated by <a href='http://istanbul-js.org' target='_blank'>istanbul</a> at Fri Oct 26 2012 08:44:53 GMT-0500 (CDT)</div>
+    <div class='meta'>Generated by <a href='http://istanbul-js.org' target='_blank'>istanbul</a> at Tue Oct 30 2012 13:53:13 GMT-0500 (CDT)</div>
 </div>
 </body>
 
