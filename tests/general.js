@@ -48,6 +48,7 @@ var tests = {
         topic: function() {
             var isTTY = process.stdout.isTTY;
             process.stdout.isTTY = false;
+            util.init({ color: false });
             var out = util.color('foo', 'red');
             process.stdout.isTTY = isTTY;
             return out;
