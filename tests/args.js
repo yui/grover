@@ -8,6 +8,14 @@ var log = require('../lib/log');
 log.log = log.error = function(str) { return str; };
 
 var tests = {
+    '--no-color': {
+        topic: function() {
+            return parse(['--no-color']);
+        },
+        'color should be false': function(topic) {
+            assert.isFalse(topic.color);
+        }
+    },
     'check timeout number shorthand': {
         topic: function() {
             return parse(['-t', '3']);
