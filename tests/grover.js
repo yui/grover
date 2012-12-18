@@ -94,7 +94,7 @@ var tests = {
                 });
             };
 
-            grover.check = function(callback) {
+            grover.check = function(options, callback) {
                 callback(null);
             };
             grover.init({}, function() {

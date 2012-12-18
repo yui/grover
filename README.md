@@ -64,6 +64,7 @@ Commandline Arguments
            --junit JUnit XML export
        --server Starts a static file server in the CWD, tests should be relative to this directory
        --port <Number> The port to start the server on
+       --phantom <path to phantomjs executable> A non-PATH location for the phantomjs executable
        --no-run Do not execute the tests, just prep the server (for other testing)
 
     Coverage Options
