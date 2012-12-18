@@ -1,3 +1,4 @@
+/*jshint unused: false */
 var vows = require('vows'),
     assert = require('assert'),
     path = require('path'),
@@ -312,7 +313,8 @@ var tests = {
             assert.ok(topic);
             assert.isUndefined(topic.results);
         }
-    },
+    }
 };
 
+/*jshint es5: true */
 vows.describe('grover').addBatch(tests).export(module);

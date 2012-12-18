@@ -509,9 +509,9 @@ var tests = {
     'getPaths': {
         'good files': {
             topic: function() {
-                var _platform = process.platform;
+                var _platform = process.platform, ret;
                 process.platform = 'win32';
-                var ret = parse(['./tests/html/*.html']);
+                ret = parse(['./tests/html/*.html']);
                 process.platform = _platform;
                 return ret;
             },
@@ -521,9 +521,9 @@ var tests = {
         },
         'no files': {
             topic: function() {
-                var _platform = process.platform;
+                var _platform = process.platform, ret;
                 process.platform = 'win32';
-                var ret = parse(['./tests/html/*.php']);
+                ret = parse(['./tests/html/*.php']);
                 process.platform = _platform;
                 return ret;
             },
@@ -534,4 +534,5 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('arguments').addBatch(tests).export(module);

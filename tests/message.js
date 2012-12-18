@@ -81,5 +81,6 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('process.message').addBatch(tests).export(module);
 
