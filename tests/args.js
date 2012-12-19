@@ -436,52 +436,52 @@ var tests = {
             assert.equal(topic.outtype, 'TAP');
         }
     },
-    '--phantom (default)': {
+    '--phantom-bin (default)': {
         topic: function () {
             return parse([]);
         },
         'should default phantom executable to use PATH': function (topic) {
-            assert.equal(topic.phantom, 'phantomjs');
+            assert.equal(topic['phantom-bin'], 'phantomjs');
         }
     },
-    '--phantom (empty)': {
+    '--phantom-bin (empty)': {
         topic: function () {
-            return parse(['--phantom']);
+            return parse(['--phantom-bin']);
         },
         'should require an argument if option passed': function (topic) {
-            assert.equal(topic, '--phantom requires a path');
+            assert.equal(topic, '--phantom-bin requires a path');
         }
     },
-    '--phantom (bad path)': {
+    '--phantom-bin (bad path)': {
         topic: function () {
-            return parse(['--phantom', path.join(__dirname, '../tests/missing/phantomjs')]);
+            return parse(['--phantom-bin', path.join(__dirname, '../tests/missing/phantomjs')]);
         },
         'should reject path when executable not found': function (topic) {
             assert.equal(topic, 'Custom phantomjs binary could not be found!');
         }
     },
-    '--phantom path/to/bin': {
+    '--phantom-bin path/to/bin': {
         topic: function () {
-            return parse(['--phantom', './tests/build/bin']);
+            return parse(['--phantom-bin', './tests/build/bin']);
         },
         'should add phantomjs executable to customized phantom path': function (topic) {
-            assert.equal(topic.phantom, path.join(__dirname, '../tests/build/bin/phantomjs'));
+            assert.equal(topic['phantom-bin'], path.join(__dirname, '../tests/build/bin/phantomjs'));
         }
     },
-    '--phantom path/to/bin/phantomjs': {
+    '--phantom-bin path/to/bin/phantomjs': {
         topic: function () {
-            return parse(['--phantom', './tests/build/bin/phantomjs']);
+            return parse(['--phantom-bin', './tests/build/bin/phantomjs']);
         },
         'should accept full path to custom phantomjs location': function (topic) {
-            assert.equal(topic.phantom, path.join(__dirname, '../tests/build/bin/phantomjs'));
+            assert.equal(topic['phantom-bin'], path.join(__dirname, '../tests/build/bin/phantomjs'));
         }
     },
-    '--phantom /absolute/path/to/bin/phantomjs': {
+    '--phantom-bin /absolute/path/to/bin/phantomjs': {
         topic: function () {
-            return parse(['--phantom', path.join(__dirname, '../tests/build/bin/phantomjs')]);
+            return parse(['--phantom-bin', path.join(__dirname, '../tests/build/bin/phantomjs')]);
         },
         'should accept absolute phantom path & executable': function (topic) {
-            assert.equal(topic.phantom, path.join(__dirname, '../tests/build/bin/phantomjs'));
+            assert.equal(topic['phantom-bin'], path.join(__dirname, '../tests/build/bin/phantomjs'));
         }
     },
     '--help': {
