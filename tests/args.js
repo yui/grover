@@ -457,7 +457,7 @@ var tests = {
             return parse(['--phantom-bin', path.join(__dirname, '../tests/missing/phantomjs')]);
         },
         'should reject path when executable not found': function (topic) {
-            assert.equal(topic, 'Custom phantomjs binary could not be found!');
+            assert.ok(topic.indexOf('Custom phantomjs binary could not be found!') > -1);
         }
     },
     '--phantom-bin path/to/bin': {
@@ -466,6 +466,14 @@ var tests = {
         },
         'should add phantomjs executable to customized phantom path': function (topic) {
             assert.equal(topic['phantom-bin'], path.join(__dirname, '../tests/build/bin/phantomjs'));
+        }
+    },
+    '--phantom-bin path/to/bin/phantomjs-1.8.0': {
+        topic: function () {
+            return parse(['--phantom-bin', './tests/build/bin/phantomjs-1.8.0']);
+        },
+        'should use custom executable name': function (topic) {
+            assert.equal(topic['phantom-bin'], path.join(__dirname, '../tests/build/bin/phantomjs-1.8.0'));
         }
     },
     '--phantom-bin path/to/bin/phantomjs': {

@@ -1,0 +1,1 @@
+This is not the actual binary, just present for an fs.existsSync in --phantom arg parsing tests.
