@@ -30,8 +30,8 @@ var tests = {
     },
     'log.error should not exit': {
         topic: function() {
-            var util = require('../lib/index');
-            var _exit = util.exit;
+            var util = require('../lib/index'),
+                _exit = util.exit;
             util.exit = function() {
                 assert.ok(false);
             };
@@ -46,10 +46,10 @@ var tests = {
     },
     'test color with no terminal': {
         topic: function() {
-            var isTTY = process.stdout.isTTY;
+            var isTTY = process.stdout.isTTY, out;
             process.stdout.isTTY = false;
             util.init({ color: false });
-            var out = util.color('foo', 'red');
+            out = util.color('foo', 'red');
             process.stdout.isTTY = isTTY;
             return out;
         },
@@ -98,7 +98,7 @@ var tests = {
     },
     'test canPrint': {
         topic: function() {
-            return require('../lib').canPrint
+            return require('../lib').canPrint;
         },
         'should be a function': function(topic) {
             assert.isFunction(topic);
@@ -185,4 +185,5 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('general').addBatch(tests).export(module);

@@ -1,3 +1,4 @@
+/*jshint unused: false */
 var vows = require('vows'),
     assert = require('assert'),
     fs = require('fs'),
@@ -76,17 +77,17 @@ var tests = {
             },
             'and should have report dirs': {
                 topic: function() {
-                    return fs.readdirSync(report)
+                    return fs.readdirSync(report);
                 },
                 'should have index.html': function(topic) {
                     var hasIndex = topic.some(function(file) {
-                        return file === 'index.html'
+                        return file === 'index.html';
                     });
                     assert.isTrue(hasIndex);
                 },
                 'should have yql/': function(topic) {
                     var hasIndex = topic.some(function(file) {
-                        return file === 'yql'
+                        return file === 'yql';
                     });
                     assert.isTrue(hasIndex);
                 }
@@ -95,4 +96,5 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('istanbul').addBatch(tests).export(module);

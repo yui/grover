@@ -69,5 +69,6 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('process SIGINT').addBatch(tests).export(module);
 

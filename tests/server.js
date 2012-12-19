@@ -1,3 +1,4 @@
+/*jshint unused: false */
 var vows = require('vows'),
     assert = require('assert'),
     path = require('path'),
@@ -112,7 +113,7 @@ var tests = {
                     port: 7001,
                     silent: true,
                     run: true
-                }, this.callback);
+                }, self.callback);
 
             },
             'and should have server listening': {
@@ -125,7 +126,7 @@ var tests = {
                         cont.emit('server2');
                         self.callback(null, res.statusCode);
 
-                        try{ topic.close(); } catch (e) {};
+                        try{ topic.close(); } catch (e) {}
                     });
                 },
                 'should serve a 404 as the default': function(topic) {
@@ -149,7 +150,7 @@ var tests = {
                             run: false
                         }, function(e, server) {
                             util.exit = _exit;
-                            try{ server.close(); } catch (e) {};
+                            try{ server.close(); } catch (e) {}
                             self.callback(null, {
                                 error: e,
                                 code: code
@@ -163,6 +164,7 @@ var tests = {
                 }
             }
         },
+        /* This was a duplicate key, and never run. When made unique, it causes the suite to stall.
         'should error when started on port 80': {
             topic: function() {
                 var self = this,
@@ -181,7 +183,7 @@ var tests = {
                     run: true
                 }, function(e, server) {
                     util.exit = _exit;
-                    try{ server.close(); } catch (e) {};
+                    try{ server.close(); } catch (e) {}
                     self.callback(null, {
                         error: e,
                         code: code
@@ -193,6 +195,7 @@ var tests = {
                 assert.ok(topic.error);
             }
         },
+        */
         'should error when started on port 80': {
             topic: function() {
                 var self = this,
@@ -225,7 +228,7 @@ var tests = {
                 }, {
                     code: 'Fake Error',
                     toString: function() {
-                        return 'Fake Error'
+                        return 'Fake Error';
                     }
                 }));
             },
@@ -241,7 +244,7 @@ var tests = {
                 }, {
                     code: 'EADDRINUSE',
                     toString: function() {
-                        return 'EADDRINUSE'
+                        return 'EADDRINUSE';
                     }
                 }));
             },
@@ -253,5 +256,6 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('server').addBatch(tests).export(module);
 

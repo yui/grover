@@ -1,3 +1,4 @@
+/*jshint multistr: true */
 var vows = require('vows'),
     assert = require('assert'),
     fs = require('fs'),
@@ -145,7 +146,7 @@ var tests = {
                     s: {},
                     fnMap: {}
                 });
-                return cover.coverageInfo
+                return cover.coverageInfo;
             },
             'and should be ok': function(topic) {
                 assert.ok(topic);
@@ -162,7 +163,7 @@ var tests = {
                         s: {},
                         fnMap: {}
                     });
-                    return cover.coverageInfo
+                    return cover.coverageInfo;
                 },
                 'and should be ok': function(topic) {
                     assert.ok(topic);
@@ -189,7 +190,7 @@ var tests = {
                     { foo: 'bar' },
                     { path: 'b/c.js' },
                     { path: 'a/a.js' },
-                    { path: 'a/c.js' },
+                    { path: 'a/c.js' }
                 ];
                 return items.sort(topic);
             },
@@ -205,4 +206,5 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('coverage').addBatch(tests).export(module);

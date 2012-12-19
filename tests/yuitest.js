@@ -1,3 +1,4 @@
+/*jshint unused: false */
 var vows = require('vows'),
     assert = require('assert'),
     fs = require('fs'),
@@ -28,7 +29,7 @@ var vows = require('vows'),
 var tests = {
     'should execute a good test with yuitest': {
         topic: function() {
-            var self = this;
+            var self = this,
                 _exit = util.exit;
             util.exit = function() {};
             runTest('./html/yuitest.html', function(err, json) {
@@ -47,7 +48,7 @@ var tests = {
         },
         'and with coverage warn': {
             topic: function() {
-                var self = this;
+                var self = this,
                     _exit = util.exit;
                 util.exit = function() {};
                 process.chdir(__dirname);
@@ -59,7 +60,7 @@ var tests = {
                     '--silent',
                     '--outfile',
                     path.join(__dirname, 'out/json.info'),
-                    '--json',
+                    '--json'
                 ], function(err, json) {
                     util.exit = _exit;
                     self.callback(err, json);
@@ -80,7 +81,7 @@ var tests = {
             },
             'and with invalid sourceFilePrefix': {
                 topic: function() {
-                    var self = this;
+                    var self = this,
                         _exit = util.exit;
                     util.exit = function() {};
                     process.chdir(__dirname);
@@ -108,4 +109,5 @@ var tests = {
     }
 };
 
+/*jshint es5: true */
 vows.describe('yuitest').addBatch(tests).export(module);
