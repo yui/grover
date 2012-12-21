@@ -16,48 +16,20 @@ var tests = {
             assert.isFalse(topic.color);
         }
     },
-    '--screwdriver with an env': {
+    '--coverdir': {
         topic: function() {
-            process.env.TEST_RESULTS_DIR = '/foo/results/';
-            process.env.COVERAGE_DIR = '/foo/coverage/';
-            return parse(['--screwdriver']);
+            return parse(['--coverdir', '/foo/bar']);
         },
-        'screwdriver should be true': function(topic) {
-            assert.isTrue(topic.screwdriver);
-        },
-        'coverage should be true': function(topic) {
-            assert.isTrue(topic.coverage);
-        },
-        'outtype should be JUnitXML': function(topic) {
-            assert.equal(topic.outtype, 'JUnitXML');
-        },
-        'outfile should be resolved': function(topic) {
-            assert.equal(topic.outfile, '/foo/results/junit.xml');
-        },
-        'coverdir should be resolved': function(topic) {
-            assert.equal(topic.coverdir, '/foo/coverage');
+        'coverdir should not be undefined': function(topic) {
+            assert.ok(topic.coverdir);
         }
     },
-    '--screwdriver with no env': {
+    '--coverdir with no param': {
         topic: function() {
-            delete process.env.TEST_RESULTS_DIR;
-            delete process.env.COVERAGE_DIR;
-            return parse(['--screwdriver']);
+            return parse(['--coverdir']);
         },
-        'screwdriver should be true': function(topic) {
-            assert.isTrue(topic.screwdriver);
-        },
-        'coverage should be true': function(topic) {
-            assert.isTrue(topic.coverage);
-        },
-        'outtype should be JUnitXML': function(topic) {
-            assert.equal(topic.outtype, 'JUnitXML');
-        },
-        'outfile should be undefined': function(topic) {
-            assert.isUndefined(topic.outfile);
-        },
-        'coverdir should be undefined': function(topic) {
-            assert.isUndefined(topic.coverdir);
+        'should error': function(topic) {
+            assert.equal(topic, '--coverdir requires an argument');
         }
     },
     'check timeout number shorthand': {
