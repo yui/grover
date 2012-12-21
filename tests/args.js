@@ -16,6 +16,50 @@ var tests = {
             assert.isFalse(topic.color);
         }
     },
+    '--screwdriver with an env': {
+        topic: function() {
+            process.env.TEST_RESULTS_DIR = '/foo/results/';
+            process.env.COVERAGE_DIR = '/foo/coverage/';
+            return parse(['--screwdriver']);
+        },
+        'screwdriver should be true': function(topic) {
+            assert.isTrue(topic.screwdriver);
+        },
+        'coverage should be true': function(topic) {
+            assert.isTrue(topic.coverage);
+        },
+        'outtype should be JUnitXML': function(topic) {
+            assert.equal(topic.outtype, 'JUnitXML');
+        },
+        'outfile should be resolved': function(topic) {
+            assert.equal(topic.outfile, '/foo/results/junit.xml');
+        },
+        'coverdir should be resolved': function(topic) {
+            assert.equal(topic.coverdir, '/foo/coverage');
+        }
+    },
+    '--screwdriver with no env': {
+        topic: function() {
+            delete process.env.TEST_RESULTS_DIR;
+            delete process.env.COVERAGE_DIR;
+            return parse(['--screwdriver']);
+        },
+        'screwdriver should be true': function(topic) {
+            assert.isTrue(topic.screwdriver);
+        },
+        'coverage should be true': function(topic) {
+            assert.isTrue(topic.coverage);
+        },
+        'outtype should be JUnitXML': function(topic) {
+            assert.equal(topic.outtype, 'JUnitXML');
+        },
+        'outfile should be undefined': function(topic) {
+            assert.isUndefined(topic.outfile);
+        },
+        'coverdir should be undefined': function(topic) {
+            assert.isUndefined(topic.coverdir);
+        }
+    },
     'check timeout number shorthand': {
         topic: function() {
             return parse(['-t', '3']);
