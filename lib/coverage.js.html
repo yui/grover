@@ -181,16 +181,16 @@
     <h1>Code coverage report for <span class='entity'>lib/coverage.js</span></h1>
     <h2>
         
-        Statements: <span class='metric'>100% <small>(218 / 218)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class='metric'>96.93% <small>(221 / 228)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class='metric'>100% <small>(55 / 55)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class='metric'>96.72% <small>(59 / 61)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class='metric'>100% <small>(29 / 29)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class='metric'>93.55% <small>(29 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class='metric'>100% <small>(218 / 218)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class='metric'>96.93% <small>(221 / 228)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; coverage.js</div>
@@ -610,7 +610,28 @@
 411
 412
 413
-414</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+414
+415
+416
+417
+418
+419
+420
+421
+422
+423
+424
+425
+426
+427
+428
+429
+430
+431
+432
+433
+434
+435</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -789,6 +810,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">5</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -999,8 +1023,26 @@
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">8</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">8</span>
@@ -1201,7 +1243,10 @@ var printIstanbulReport = function() {
 &nbsp;
 };
 &nbsp;
-var report = function() {
+var report = function(options) {
+    <span class="missing-if-branch" title="if path not taken"" >I</span>if (options.screwdriver) {
+<span class="cstat-no" title="statement not covered" >        return;</span>
+    }
     if (coverageType === 'istanbul') {
         printIstanbulReport();
     } else {
@@ -1411,10 +1456,28 @@ var getCoverageReport = function(options) {
 &nbsp;
 exports.getCoverageReport = getCoverageReport;
 &nbsp;
+var writeIstanbulReport = <span class="fstat-no" title="function not covered" >function(options) {</span>
+<span class="cstat-no" title="statement not covered" >    var collect = new istanbul.Collector(),</span>
+        report = istanbul.Report.create('lcov', {
+            dir: options.coverdir
+        });
+    
+<span class="cstat-no" title="statement not covered" >    coverageInfo.forEach(<span class="fstat-no" title="function not covered" >function(coverage) {</span></span>
+<span class="cstat-no" title="statement not covered" >        collect.add(coverage);</span>
+    });
+    
+<span class="cstat-no" title="statement not covered" >    log.log('generating istanbul LCOV report, saving here: ' + options.coverdir);</span>
+<span class="cstat-no" title="statement not covered" >    report.writeReport(collect);</span>
+};
+&nbsp;
 var save = function(options) {
     var lcovFile = options.coverageFileName,
         lcovStr = getCoverageReport(options),
         gen = '';
+&nbsp;
+    <span class="missing-if-branch" title="if path not taken"" >I</span>if (coverageType === 'istanbul' &amp;&amp; options.coverdir) {
+<span class="cstat-no" title="statement not covered" >        return writeIstanbulReport(options);</span>
+    }
 &nbsp;
     if (coverageType === 'istanbul') {
         gen = 'genhtml -o ./out/ -s ' + path.basename(lcovFile);
@@ -1441,7 +1504,7 @@ exports.save = save;
 
 </div>
 <div class='footer'>
-    <div class='meta'>Generated by <a href='http://istanbul-js.org' target='_blank'>istanbul</a> at Wed Dec 19 2012 15:39:31 GMT-0600 (CST)</div>
+    <div class='meta'>Generated by <a href='http://istanbul-js.org' target='_blank'>istanbul</a> at Fri Dec 21 2012 09:03:49 GMT-0600 (CST)</div>
 </div>
 </body>
 

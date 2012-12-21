@@ -181,16 +181,16 @@
     <h1>Code coverage report for <span class='entity'>lib/options.js</span></h1>
     <h2>
         
-        Statements: <span class='metric'>100% <small>(156 / 156)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class='metric'>100% <small>(164 / 164)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class='metric'>100% <small>(101 / 101)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class='metric'>100% <small>(106 / 106)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
         Functions: <span class='metric'>100% <small>(4 / 4)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class='metric'>100% <small>(156 / 156)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class='metric'>100% <small>(164 / 164)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; options.js</div>
@@ -470,14 +470,27 @@
 271
 272
 273
-274</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+274
+275
+276
+277
+278
+279
+280
+281
+282
+283
+284
+285
+286</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">69</span>
+<span class="cline-any cline-yes">71</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -510,9 +523,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">69</span>
-<span class="cline-any cline-yes">131</span>
-<span class="cline-any cline-yes">131</span>
+<span class="cline-any cline-yes">71</span>
+<span class="cline-any cline-yes">133</span>
+<span class="cline-any cline-yes">133</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -712,11 +736,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">61</span>
+<span class="cline-any cline-yes">63</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">61</span>
+<span class="cline-any cline-yes">63</span>
 <span class="cline-any cline-yes">4</span>
 <span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -726,7 +750,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">60</span>
+<span class="cline-any cline-yes">62</span>
 <span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-yes">17</span>
 <span class="cline-any cline-yes">17</span>
@@ -739,7 +763,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">60</span>
+<span class="cline-any cline-yes">62</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
@@ -760,6 +784,7 @@
             outtype: 'tap',
             silent: false,
             run: true,
+            screwdriver: false,
             quiet: false,
             exitOnFail: false,
             istanbulReport: false,
@@ -786,6 +811,17 @@
         while (args.length &gt; 0) {
             v = args.shift();
             switch (v) {
+                case "--screwdriver":
+                    options.coverage = true;
+                    options.screwdriver = true;
+                    options.outtype = 'JUnitXML';
+                    if ('TEST_RESULTS_DIR' in process.env) {
+                        options.outfile = path.resolve(process.env.TEST_RESULTS_DIR, 'junit.xml');
+                    }
+                    if ('COVERAGE_DIR' in process.env) {
+                        options.coverdir = path.resolve(process.env.COVERAGE_DIR);
+                    }
+                    break;
                 case "--no-color":
                     options.color = false;
                     break;
@@ -1021,7 +1057,7 @@ exports.parse = parse;
 
 </div>
 <div class='footer'>
-    <div class='meta'>Generated by <a href='http://istanbul-js.org' target='_blank'>istanbul</a> at Wed Dec 19 2012 15:39:31 GMT-0600 (CST)</div>
+    <div class='meta'>Generated by <a href='http://istanbul-js.org' target='_blank'>istanbul</a> at Fri Dec 21 2012 09:03:49 GMT-0600 (CST)</div>
 </div>
 </body>
 
