@@ -1,7 +1,7 @@
 {
     "name": "grover",
     "description": "PhantomJS wrapper for YUITest",
-    "version": "0.1.10",
+    "version": "0.1.11",
     "engines": { "node": ">=0.4.0" },
     "bin": {
         "grover": "./bin/grover.js"
@@ -11,7 +11,7 @@
         "ansi-color": "*",
         "yuitest": "*",
         "cli-table": "*",
-        "echoecho": "~0.1.1",
+        "echoecho": "~0.1.2",
         "istanbul": "~0.1.10",
         "express": "~2.5.0",
         "glob": "~3.1.12",
