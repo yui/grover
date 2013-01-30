@@ -8,6 +8,22 @@ var log = require('../lib/log');
 log.log = log.error = function(str) { return str; };
 
 var tests = {
+    '--console': {
+        topic: function() {
+            return parse(['--console']);
+        },
+        'console should be true': function(topic) {
+            assert.isTrue(topic.console);
+        }
+    },
+    '--debug': {
+        topic: function() {
+            return parse(['--debug']);
+        },
+        'debug should be true': function(topic) {
+            assert.isTrue(topic.debug);
+        }
+    },
     '--no-color': {
         topic: function() {
             return parse(['--no-color']);

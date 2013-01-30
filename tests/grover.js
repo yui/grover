@@ -111,7 +111,16 @@ var tests = {
     },
     'should return error on failed response parse': {
         topic: function() {
-            return grover.parseResponse({}, 'foo/bar.js', '( not good jSON)');
+            return grover.parseResponse({ debug: false }, 'foo/bar.js', '( not good jSON)');
+        },
+        'should return error string': function(topic) {
+            assert.equal(topic[0], 'foo/bar.js');
+            assert.isUndefined(topic[1]);
+        }
+    },
+    'should return error on failed response parse in debug mode': {
+        topic: function() {
+            return grover.parseResponse({ debug: true }, 'foo/bar.js', '( not good jSON)');
         },
         'should return error string': function(topic) {
             assert.equal(topic[0], 'foo/bar.js');

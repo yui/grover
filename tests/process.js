@@ -17,6 +17,7 @@ var tests = {
                 null,
                 '--concurrent',
                 '5',
+                '--console',
                 '--no-run',
                 path.join(__dirname, './html/good.html'),
                 path.join(__dirname, './html/bad.html'),
