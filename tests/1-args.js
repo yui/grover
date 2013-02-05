@@ -327,10 +327,10 @@ var tests = {
     },
     'check --import <shorthand>': {
         topic: function() {
-            return parse(['-i', './tests/args.js']);
+            return parse(['-i', './tests/1-args.js']);
         },
         'should be path': function(topic) {
-            assert.equal(topic['import'], path.join(__dirname, '../tests/args.js'));
+            assert.equal(topic['import'], path.join(__dirname, '../tests/1-args.js'));
         }
     },
     '--coverage': {

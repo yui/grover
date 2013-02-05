@@ -33,7 +33,7 @@
     ],
     "scripts": {
         "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js ./bin/*.js ./tests/*.js",
-        "test": "istanbul cover --print both vows -- --spec ./tests/*.js"
+        "test": "istanbul cover --print both vows -- --spec `ls ./tests/*.js | sort -n`"
     },
     "preferGlobal": "true",
     "bugs": { "url" : "http://github.com/davglass/grover/issues" },
