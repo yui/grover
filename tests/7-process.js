@@ -29,7 +29,7 @@ var tests = {
             });
             setTimeout(function() {
                 process.kill(process.pid, 'SIGCONT');
-            }, 300);
+            }, 3500);
         },
         'should have results': function(topic) {
             assert.ok(topic);

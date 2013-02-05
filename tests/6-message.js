@@ -32,7 +32,7 @@ var tests = {
             setTimeout(function() {
                 process.emit('message',  { 'continue': true });
                 process.emit('message',  { 'foo': true });
-            }, 300);
+            }, 3500);
         },
         'should have results': function(topic) {
             assert.ok(topic);
