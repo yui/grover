@@ -8,6 +8,15 @@ var log = require('../lib/log');
 log.log = log.error = function(str) { return str; };
 
 var tests = {
+    '--combo /combo:./build': {
+        topic: function() {
+            return parse(['--combo', '/combo:./build']);
+        },
+        'combo should contain proper items': function(topic) {
+            assert.isArray(topic.combo);
+            assert.equal(topic.combo.length, 1);
+        }
+    },
     '--console': {
         topic: function() {
             return parse(['--console']);

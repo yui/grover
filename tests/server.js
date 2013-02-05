@@ -253,6 +253,46 @@ var tests = {
                 assert.equal(topic, 'Grover Error\nPort 8000 is in use, try a different one!\n');
             }
         }
+    },
+    'should serve combo': {
+        topic: function() {
+            var self = this,
+                results;
+
+            server.start({
+                paths: [],
+                server: __dirname,
+                port: 7010,
+                silent: true,
+                run: false,
+                combo: [{
+                    root: __dirname,
+                    route: '/comboServer'
+                }]
+            }, function(err, server) {
+
+                http.get({
+                    url: '127.0.0.1',
+                    port: 7010,
+                    path: '/comboServer?build/yql/yql.js'
+                }, function(res) {
+                    var body = '';
+
+                    res.on('data', function(c) {
+                        body += c;
+                    });
+
+                    res.on('end', function() {
+                        self.callback(null, body);
+
+                        try{ server.close(); } catch (e) {}
+                    });
+                });
+            });
+        },
+        'should serve comboed YQL file': function(topic) {
+            assert.ok(topic.indexOf('Utility Class used under the hood my the YQL class') > 0);
+        }
     }
 };
 
