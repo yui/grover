@@ -19,12 +19,12 @@ This works on Windows too, just make sure your `phantomjs.exe` executable is in 
 Build Status
 ------------
 
-[![Travis Build Status](https://secure.travis-ci.org/davglass/grover.png?branch=master)](http://travis-ci.org/davglass/grover)
+[![Travis Build Status](https://secure.travis-ci.org/yui/grover.png?branch=master)](http://travis-ci.org/yui/grover)
 
 Code Coverage
 -------------
 
-[Latest code coverage report is available here](http://davglass.github.com/grover/lib/index.html)
+[Latest code coverage report is available here](http://yui.github.com/grover/lib/index.html)
 
 Output
 ------

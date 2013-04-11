@@ -36,15 +36,15 @@
         "test": "istanbul cover --print both vows -- --spec `ls ./tests/*.js | sort -n`"
     },
     "preferGlobal": "true",
-    "bugs": { "url" : "http://github.com/davglass/grover/issues" },
+    "bugs": { "url" : "http://github.com/yui/grover/issues" },
     "licenses":[
         {
             "type" : "BSD",
-            "url" : "https://github.com/davglass/grover/blob/master/LICENSE"
+            "url" : "https://github.com/yui/grover/blob/master/LICENSE"
         }
     ],
     "repository": {
         "type":"git",
-        "url":"http://github.com/davglass/grover.git"
+        "url":"http://github.com/yui/grover.git"
     }
 }
