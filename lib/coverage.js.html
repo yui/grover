@@ -1,18 +1,17 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
     <title>Code coverage report for lib/coverage.js</title>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <meta http-equiv="content-language" content="en-gb">
-    
-        <link rel='stylesheet' href='../prettify.css'>
-    
-    <style type='text/css'>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../prettify.css">
+
+    <style>
         body, html {
             margin:0; padding: 0;
         }
         body {
-            font-family: "Helvetic Neue", Helvetica,Arial;
+            font-family: Helvetica Neue, Helvetica,Arial;
             font-size: 10pt;
         }
         div.header, div.footer {
@@ -46,11 +45,14 @@
             font-size: 10pt;
         }
         pre {
-            font-family: consolas, menlo, monaco, monospace;
+            font-family: Consolas, Menlo, Monaco, monospace;
             margin: 0;
             padding: 0;
             line-height: 14px;
             font-size: 14px;
+            -moz-tab-size: 2;
+            -o-tab-size:  2;
+            tab-size: 2;
         }
 
         div.path { font-size: 110%; }
@@ -177,25 +179,25 @@
     </style>
 </head>
 <body>
-<div class='header high'>
-    <h1>Code coverage report for <span class='entity'>lib/coverage.js</span></h1>
+<div class="header high">
+    <h1>Code coverage report for <span class="entity">lib/coverage.js</span></h1>
     <h2>
         
-        Statements: <span class='metric'>96.52% <small>(222 / 230)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">96.57% <small>(225 / 233)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class='metric'>96.72% <small>(59 / 61)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">92.96% <small>(66 / 71)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class='metric'>93.55% <small>(29 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">93.55% <small>(29 / 31)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class='metric'>96.52% <small>(222 / 230)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">96.57% <small>(225 / 233)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; coverage.js</div>
 </div>
-<div class='body'>
+<div class="body">
 <pre><table class="coverage">
 <tr><td class="line-count">1
 2
@@ -633,7 +635,13 @@
 434
 435
 436
-437</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+437
+438
+439
+440
+441
+442
+443</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-yes">1</span>
@@ -687,6 +695,8 @@
 <span class="cline-any cline-yes">11</span>
 <span class="cline-any cline-yes">13</span>
 <span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-yes">13</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">11</span>
@@ -700,10 +710,12 @@
 <span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-yes">7</span>
+<span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">7</span>
 <span class="cline-any cline-yes">28</span>
 <span class="cline-any cline-yes">28</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -836,6 +848,8 @@
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -1121,8 +1135,10 @@ var set = function(json) {
     var d = {}, i;
 &nbsp;
     for (i in json) {
-        d[i] = json[i];
-        delete d[i].code;
+        <span class="missing-if-branch" title="else path not taken"" >E</span>if (json.hasOwnProperty(i)) {
+            d[i] = json[i];
+            delete d[i].code;
+        }
     }
 &nbsp;
     if (isIstanbul(json)) {
@@ -1132,15 +1148,17 @@ var set = function(json) {
         coverageInfo.push(json);
     } else {
         for (i in json) {
-            coverageInfo[i] = coverageInfo[i] || {};
-            coverageInfo[i].path = i;
-            coverageInfo[i].lines = json[i].lines;
-            coverageInfo[i].functions = json[i].functions;
-            /*jshint loopfunc: true */
-            ['calledLines', 'calledFunctions', 'coveredLines', 'coveredFunctions'].forEach(function(prop) {
-                coverageInfo[i][prop] = coverageInfo[i][prop] || 0;
-                coverageInfo[i][prop] = Math.max(coverageInfo[i][prop], json[i][prop], 0);
-            });
+            <span class="missing-if-branch" title="else path not taken"" >E</span>if (json.hasOwnProperty(i)) {
+                coverageInfo[i] = coverageInfo[i] || {};
+                coverageInfo[i].path = i;
+                coverageInfo[i].lines = json[i].lines;
+                coverageInfo[i].functions = json[i].functions;
+                /*jshint loopfunc: true */
+                ['calledLines', 'calledFunctions', 'coveredLines', 'coveredFunctions'].forEach(function(prop) {
+                    coverageInfo[i][prop] = coverageInfo[i][prop] || 0;
+                    coverageInfo[i][prop] = Math.max(coverageInfo[i][prop], json[i][prop], 0);
+                });
+            }
         }
     }
 };
@@ -1269,9 +1287,11 @@ var getYUIStatus = function(coverage) {
         percent: 0
     }, i, str;
     for (i in coverage) {
-        cov.lines = cov.lines + coverage[i].coveredLines;
-        cov.miss = cov.miss + (coverage[i].coveredLines - coverage[i].calledLines);
-        cov.hit = cov.hit + coverage[i].calledLines;
+        <span class="missing-if-branch" title="else path not taken"" >E</span>if (coverage.hasOwnProperty(i)) {
+            cov.lines = cov.lines + coverage[i].coveredLines;
+            cov.miss = cov.miss + (coverage[i].coveredLines - coverage[i].calledLines);
+            cov.hit = cov.hit + coverage[i].calledLines;
+        }
     }
     cov.percent = Math.floor((cov.hit / cov.lines) * 100);
 &nbsp;
@@ -1327,7 +1347,7 @@ var getIstanbulCoverageReport = function (options) {
         return generateIstanbulHTML(options);
     }
     var lcovFile = options.coverageFileName,
-        prefix = options.sourceFilePrefix,
+        prefix = options.sourceFilePrefix || '',
         report = istanbul.Report.create('lcovonly', {
             dir: path.dirname(lcovFile)
         }),
@@ -1446,7 +1466,7 @@ var getYUITestLcovReport = function (report) {
 exports.getYUITestLcovReport = getYUITestLcovReport;
 &nbsp;
 var getCoverageReport = function(options) {
-    var prefix = options.sourceFilePrefix,
+    var prefix = options.sourceFilePrefix || '',
         lcovStr = '';
 &nbsp;
     if (coverageType === 'istanbul') {
@@ -1509,10 +1529,9 @@ exports.save = save;
 </table></pre>
 
 </div>
-<div class='footer'>
-    <div class='meta'>Generated by <a href='http://istanbul-js.org' target='_blank'>istanbul</a> at Tue Feb 05 2013 14:57:16 GMT-0600 (CST)</div>
+<div class="footer">
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 11 2013 14:52:47 GMT-0500 (CDT)</div>
 </div>
-</body>
 
 <script src="../prettify.js"></script>
 
@@ -1608,4 +1627,5 @@ exports.save = save;
         });
     });
 </script>
+</body>
 </html>
