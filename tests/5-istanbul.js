@@ -9,6 +9,7 @@ var vows = require('vows'),
     grover = require('../lib/grover'),
     rimraf = require('rimraf'),
     report = path.join(__dirname, 'report'),
+    report2 = path.join(__dirname, 'report2'),
     runTest = function(file, timeout, cb) {
         if (!cb) {
             cb = timeout;
@@ -28,10 +29,12 @@ var vows = require('vows'),
         });
     };
 
-function cleanReportDir() {
-    if (exists(report)) {
-        rimraf.sync(report);
-    }
+if (exists(report)) {
+    rimraf.sync(report);
+}
+
+if (exists(report2)) {
+    rimraf.sync(report2);
 }
 
 var tests = {
@@ -40,7 +43,6 @@ var tests = {
             var self = this,
                 _exit = util.exit;
             util.exit = function() {};
-            cleanReportDir();
             runTest('./html/istanbul.html', function(err, json) {
                 util.exit = _exit;
                 self.callback(err, json);
@@ -60,7 +62,6 @@ var tests = {
                 var self = this,
                     _exit = util.exit;
                 util.exit = function() {};
-                cleanReportDir();
                 process.chdir(__dirname);
                 runTest('./html/istanbul.html', [
                     '--istanbul-report',
@@ -102,11 +103,10 @@ var tests = {
                 var self = this,
                     _exit = util.exit;
                 util.exit = function() {};
-                cleanReportDir();
                 process.chdir(__dirname);
                 runTest('./html/istanbul.html', [
                     '--coverdir',
-                    report
+                    report2
                 ],function(err, json) {
                     util.exit = _exit;
                     self.callback(err, json);
@@ -123,7 +123,7 @@ var tests = {
             },
             'and should have report dirs': {
                 topic: function() {
-                    return fs.readdirSync(report);
+                    return fs.readdirSync(report2);
                 },
                 'should have lcov.info': function (topic) {
                     var hasIndex = topic.some(function(file) {
