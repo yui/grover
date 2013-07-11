@@ -4,4 +4,3 @@ npm-debug.log
 coverage
 tests/out/*.info
 tests/report/
-tests/report2/

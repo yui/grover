@@ -9,7 +9,6 @@ var vows = require('vows'),
     grover = require('../lib/grover'),
     rimraf = require('rimraf'),
     report = path.join(__dirname, 'report'),
-    report2 = path.join(__dirname, 'report2'),
     runTest = function(file, timeout, cb) {
         if (!cb) {
             cb = timeout;
@@ -29,12 +28,10 @@ var vows = require('vows'),
         });
     };
 
-if (exists(report)) {
-    rimraf.sync(report);
-}
-
-if (exists(report2)) {
-    rimraf.sync(report2);
+function cleanReportDir() {
+    if (exists(report)) {
+        rimraf.sync(report);
+    }
 }
 
 var tests = {
@@ -43,6 +40,7 @@ var tests = {
             var self = this,
                 _exit = util.exit;
             util.exit = function() {};
+            cleanReportDir();
             runTest('./html/istanbul.html', function(err, json) {
                 util.exit = _exit;
                 self.callback(err, json);
@@ -63,6 +61,7 @@ var tests = {
                     _exit = util.exit;
                 util.exit = function() {};
                 process.chdir(__dirname);
+                cleanReportDir();
                 runTest('./html/istanbul.html', [
                     '--istanbul-report',
                     report
@@ -96,52 +95,53 @@ var tests = {
                     });
                     assert.isTrue(hasIndex);
                 }
-            }
-        },
-        'and should execute yet another good test with output like istanbul cover': {
-            topic: function() {
-                var self = this,
-                    _exit = util.exit;
-                util.exit = function() {};
-                process.chdir(__dirname);
-                runTest('./html/istanbul.html', [
-                    '--coverdir',
-                    report2
-                ],function(err, json) {
-                    util.exit = _exit;
-                    self.callback(err, json);
-                });
             },
-            'and have suite name': function(json) {
-                assert.equal(json.name, 'YQL');
-            },
-            'and should have 8 passing tests': function(json) {
-                assert.equal(json.passed, 8);
-            },
-            'and should have 0 failed tests': function(json) {
-                assert.equal(json.failed, 0);
-            },
-            'and should have report dirs': {
+            'and should execute yet another good test with output like istanbul cover': {
                 topic: function() {
-                    return fs.readdirSync(report2);
-                },
-                'should have lcov.info': function (topic) {
-                    var hasIndex = topic.some(function(file) {
-                        return file === 'lcov.info';
+                    var self = this,
+                        _exit = util.exit;
+                    util.exit = function() {};
+                    process.chdir(__dirname);
+                    cleanReportDir();
+                    runTest('./html/istanbul.html', [
+                        '--coverdir',
+                        report
+                    ],function(err, json) {
+                        util.exit = _exit;
+                        self.callback(err, json);
                     });
-                    assert.isTrue(hasIndex);
                 },
-                'should have lcov-report': function (topic) {
-                    var hasIndex = topic.some(function(file) {
-                        return file === 'lcov-report';
-                    });
-                    assert.isTrue(hasIndex);
+                'and have suite name': function(json) {
+                    assert.equal(json.name, 'YQL');
                 },
-                'should have coverage json': function(topic) {
-                    var hasIndex = topic.some(function(file) {
-                        return file === 'coverage-final.json';
-                    });
-                    assert.isTrue(hasIndex);
+                'and should have 8 passing tests': function(json) {
+                    assert.equal(json.passed, 8);
+                },
+                'and should have 0 failed tests': function(json) {
+                    assert.equal(json.failed, 0);
+                },
+                'and should have report dirs': {
+                    topic: function() {
+                        return fs.readdirSync(report);
+                    },
+                    'should have lcov.info': function (topic) {
+                        var hasIndex = topic.some(function(file) {
+                            return file === 'lcov.info';
+                        });
+                        assert.isTrue(hasIndex);
+                    },
+                    'should have lcov-report': function (topic) {
+                        var hasIndex = topic.some(function(file) {
+                            return file === 'lcov-report';
+                        });
+                        assert.isTrue(hasIndex);
+                    },
+                    'should have coverage json': function(topic) {
+                        var hasIndex = topic.some(function(file) {
+                            return file === 'coverage-final.json';
+                        });
+                        assert.isTrue(hasIndex);
+                    }
                 }
             }
         }
