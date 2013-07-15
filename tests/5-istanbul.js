@@ -96,7 +96,7 @@ var tests = {
                     assert.isTrue(hasIndex);
                 }
             },
-            'and should execute yet another good test with output like istanbul cover': {
+            'and should execute yet another good test with --istanbul-report and --coverageFileName': {
                 topic: function() {
                     var self = this,
                         _exit = util.exit;
@@ -104,8 +104,10 @@ var tests = {
                     process.chdir(__dirname);
                     cleanReportDir();
                     runTest('./html/istanbul.html', [
-                        '--coverdir',
-                        report
+                        '--istanbul-report',
+                        report,
+                        '--coverageFileName',
+                        path.join(report, 'foo-lcov.info')
                     ],function(err, json) {
                         util.exit = _exit;
                         self.callback(err, json);
@@ -124,25 +126,73 @@ var tests = {
                     topic: function() {
                         return fs.readdirSync(report);
                     },
-                    'should have lcov.info': function (topic) {
+                    'should have index.html': function(topic) {
                         var hasIndex = topic.some(function(file) {
-                            return file === 'lcov.info';
+                            return file === 'index.html';
                         });
                         assert.isTrue(hasIndex);
                     },
-                    'should have lcov-report': function (topic) {
+                    'should have yql/': function(topic) {
                         var hasIndex = topic.some(function(file) {
-                            return file === 'lcov-report';
+                            return file === 'yql';
                         });
                         assert.isTrue(hasIndex);
                     },
-                    'should have coverage json': function(topic) {
+                    'should have foo-lcov.info file': function(topic) {
                         var hasIndex = topic.some(function(file) {
-                            return file === 'coverage-final.json';
+                            return file === 'foo-lcov.info';
                         });
                         assert.isTrue(hasIndex);
                     }
-                }
+                }/*,
+                'and should execute yet another good test with output like istanbul cover': {
+                    topic: function() {
+                        var self = this,
+                            _exit = util.exit;
+                        util.exit = function() {};
+                        process.chdir(__dirname);
+                        cleanReportDir();
+                        runTest('./html/istanbul.html', [
+                            '--coverdir',
+                            report
+                        ],function(err, json) {
+                            util.exit = _exit;
+                            self.callback(err, json);
+                        });
+                    },
+                    'and have suite name': function(json) {
+                        assert.equal(json.name, 'YQL');
+                    },
+                    'and should have 8 passing tests': function(json) {
+                        assert.equal(json.passed, 8);
+                    },
+                    'and should have 0 failed tests': function(json) {
+                        assert.equal(json.failed, 0);
+                    },
+                    'and should have report dirs': {
+                        topic: function() {
+                            return fs.readdirSync(report);
+                        },
+                        'should have lcov.info': function (topic) {
+                            var hasIndex = topic.some(function(file) {
+                                return file === 'lcov.info';
+                            });
+                            assert.isTrue(hasIndex);
+                        },
+                        'should have lcov-report': function (topic) {
+                            var hasIndex = topic.some(function(file) {
+                                return file === 'lcov-report';
+                            });
+                            assert.isTrue(hasIndex);
+                        },
+                        'should have coverage json': function(topic) {
+                            var hasIndex = topic.some(function(file) {
+                                return file === 'coverage-final.json';
+                            });
+                            assert.isTrue(hasIndex);
+                        }
+                    }
+                }*/
             }
         }
     }
