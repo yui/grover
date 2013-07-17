@@ -183,16 +183,16 @@
     <h1>Code coverage report for <span class="entity">lib/process.js</span></h1>
     <h2>
         
-        Statements: <span class="metric">94.44% <small>(17 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Statements: <span class="metric">96.3% <small>(26 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Branches: <span class="metric">83.33% <small>(15 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Branches: <span class="metric">82.14% <small>(23 / 28)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Functions: <span class="metric">100% <small>(3 / 3)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Functions: <span class="metric">100% <small>(5 / 5)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
         
-        Lines: <span class="metric">94.44% <small>(17 / 18)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
+        Lines: <span class="metric">96.3% <small>(26 / 27)</small></span> &nbsp;&nbsp;&nbsp;&nbsp;
         
     </h2>
     <div class="path"><a href="../index.html">All files</a> &#187; <a href="index.html">lib/</a> &#187; process.js</div>
@@ -239,44 +239,74 @@
 38
 39
 40
-41</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56</td><td class="line-coverage"><span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">29</span>
+<span class="cline-any cline-yes">8</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">5</span>
-<span class="cline-any cline-yes">86</span>
-<span class="cline-any cline-yes">66</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">86</span>
-<span class="cline-any cline-yes">16</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">1</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">67</span>
+<span class="cline-any cline-yes">67</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">67</span>
+<span class="cline-any cline-yes">10</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
-<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">3</span>
+<span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-yes">1</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">2</span>
+<span class="cline-any cline-yes">3</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">var YUITest = require('yuitest');
@@ -286,7 +316,7 @@ module.exports = function(results, type) {
         str = '',
         handle = function(r) {
             Object.keys(r).forEach(function(key) {
-                if (!data[key]) {
+                <span class="missing-if-branch" title="else path not taken"" >E</span>if (!data[key]) {
                     data[key] = r[key];
                 }
                 if (data[key] &amp;&amp; (typeof data[key] === 'number')) {
@@ -295,22 +325,37 @@ module.exports = function(results, type) {
             });
         };
 &nbsp;
-    results.forEach(handle);
-&nbsp;
     if (Array.isArray(results) &amp;&amp; results.length === 1) {
         handle(results[0]);
+    } else {
+        results.forEach(function(d, index) {
+            if (index === 0) {
+                handle(d);
+            } else {
+                var name = d.name;
+                data[name] = data[name] || {};
+                Object.keys(d).forEach(function(key) {
+                    <span class="missing-if-branch" title="else path not taken"" >E</span>if (!data[name][key]) {
+                        data[name][key] = d[key];
+                    }
+                    if (data[name][key] &amp;&amp; (typeof data[name][key] === 'number')) {
+                        data[name][key] += d[key];
+                    }
+                });
+            }
+        });
     }
 &nbsp;
     //Fixes #9 - YUITest knows nothing about Istanbul data, so we need to remove it first
     <span class="missing-if-branch" title="if path not taken"" >I</span>if (data.coverage &amp;&amp; data.coverageType &amp;&amp; <span class="branch-2 cbranch-no" title="branch not covered" >data.coverageType === 'istanbul' </span>&amp;&amp; <span class="branch-3 cbranch-no" title="branch not covered" >type !== 'JSON')</span> {
 <span class="cstat-no" title="statement not covered" >        delete data.coverage;</span>
     }
+&nbsp;
     /*
     I know this is bad, but YUITest.TestRunner doesn't allow
     me to add results in a public way, so I have to "work around" it :)
     */
     YUITest.TestRunner._lastResults = data;
-&nbsp;
 &nbsp;
     str = YUITest.TestRunner.getResults(YUITest.TestFormat[type]);
     if (type === 'JSON') {
@@ -324,7 +369,7 @@ module.exports = function(results, type) {
 
 </div>
 <div class="footer">
-    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Thu Apr 11 2013 14:52:47 GMT-0500 (CDT)</div>
+    <div class="meta">Generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Wed Jul 17 2013 09:25:16 GMT-0700 (PDT)</div>
 </div>
 
 <script src="../prettify.js"></script>
