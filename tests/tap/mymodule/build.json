@@ -1,0 +1,10 @@
+{
+    "name": "mymodule",
+    "builds": {
+        "mymodule": {
+            "jsfiles": [
+                "js/mymodule.js"
+            ]
+        }
+    }
+}

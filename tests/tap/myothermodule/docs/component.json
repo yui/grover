@@ -1,0 +1,11 @@
+{
+    "name"       : "myothermodule",
+    "displayName": "Gallery: myothermodule",
+    "description": "*Summary Goes Here*",
+    "author"     : [ "" ],
+    "use"        : [ "myothermodule" ],
+
+    "tags": [ "gallery" ],
+
+    "examples": []
+}

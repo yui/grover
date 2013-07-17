@@ -4,6 +4,7 @@ var vows = require('vows'),
     fs = require('fs'),
     path = require('path'),
     util = require('../lib/index'),
+    rimraf = require('rimraf'),
     cover = require('../lib/coverage'),
     exists = fs.existsSync || path.existsSync,
     grover = require('../lib/grover'),
@@ -21,6 +22,7 @@ var vows = require('vows'),
                 options.push(i);
             });
         }
+
         grover.process(options, function(err, json) {
             cb(err, json[0]);
         });
@@ -103,6 +105,44 @@ var tests = {
                 },
                 'and should have 0 failed tests': function(json) {
                     assert.equal(json.failed, 0);
+                },
+                'should execute multiple tests and report proper results': {
+                    topic: function() {
+                        var self = this,
+                            tapFile = path.join(__dirname, './tap/output.tap'),
+                            _exit = util.exit;
+                        util.exit = function() {};
+                        process.chdir(__dirname);
+
+                        if (exists(tapFile)) {
+                            rimraf.sync(tapFile);
+                        }
+
+                        runTest('tap/mymodule/tests/unit/index.html', [
+                            '--tap',
+                            '-o',
+                            tapFile,
+                            path.join(__dirname, './tap/myothermodule/tests/unit/index.html')
+                        ], function(err, json) {
+                            util.exit = _exit;
+                            var data = {
+                                file: exists(tapFile),
+                                str: fs.readFileSync(tapFile).toString()
+                            };
+                            self.callback(err, data);
+                        });
+                    },
+                    'and write tap file': function(topic) {
+                        assert.isTrue(topic.file);
+                    },
+                    'and tap file contains 6 tests': function(topic) {
+                        var line = topic.str.split('\n')[0];
+                        assert.equal(line, '1..6');
+                    },
+                    'and should have 11 lines': function(topic) {
+                        var lines = topic.str.trim().split('\n').length;
+                        assert.equal(lines, 11);
+                    }
                 }
             }
         }

@@ -1,0 +1,7 @@
+{
+    "myothermodule": {
+        "requires": [
+            "yui-base"
+        ]
+    }
+}
