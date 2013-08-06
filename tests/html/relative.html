@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+    <title>Test One</title>
+</head>
+<body>
+<script src="http://yui.yahooapis.com/3.5.0/build/yui/yui-min.js"></script>
+<script src="./assets/relativetest.js"></script>
+<script>
+YUI().use('test', function(Y) {
+	var suite = new Y.Test.Suite('Relative Test');
+	suite.add(new Y.Test.Case({
+		name: 'relative',
+
+		'should be able to see relativeVar': function() {
+			Y.Assert.isTrue(relativeVar);
+		}
+	}));
+
+	Y.Test.Runner.add(suite).run();
+});
+</script>
+</body>
+</html>
+

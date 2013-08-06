@@ -612,8 +612,8 @@ var tests = {
                 process.platform = _platform;
                 return ret;
             },
-            'should expand 7 paths': function(topic) {
-                assert.equal(topic.paths.length, 7);
+            'should expand 8 paths': function(topic) {
+                assert.equal(topic.paths.length, 8);
             }
         },
         'no files': {
@@ -626,6 +626,19 @@ var tests = {
             },
             'should expand 0 paths': function(topic) {
                 assert.equal(topic.paths.length, 0);
+            }
+        },
+        'files on Windows': {
+            topic: function() {
+                var _platform = process.platform, ret;
+                process.platform = 'win32';
+                ret = parse(['tests/html/relative.html', path.join(__dirname, '../tests/html/relative.html')]);
+                process.platform = _platform;
+                return ret;
+            },
+            'should return relative paths': function(topic) {
+                assert.equal(topic.paths[0], 'tests\\html\\relative.html')
+                assert.equal(topic.paths[1], 'tests\\html\\relative.html')
             }
         }
     }
