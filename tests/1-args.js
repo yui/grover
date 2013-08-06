@@ -637,8 +637,8 @@ var tests = {
                 return ret;
             },
             'should return relative paths': function(topic) {
-                assert.equal(topic.paths[0], 'tests\\html\\relative.html');
-                assert.equal(topic.paths[1], 'tests\\html\\relative.html');
+                assert.equal(topic.paths[0], path.join('tests', 'html', 'relative.html'));
+                assert.equal(topic.paths[1], path.join('tests', 'html', 'relative.html'));
             }
         }
     }
