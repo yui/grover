@@ -1,50 +1,54 @@
 {
-    "name": "grover",
-    "description": "PhantomJS wrapper for YUITest",
-    "version": "0.1.16",
-    "engines": { "node": ">=0.4.0" },
-    "bin": {
-        "grover": "./bin/grover.js"
-    },
-    "main": "./lib/grover.js",
-    "dependencies": {
-        "ansi-color": "*",
-        "yuitest": "*",
-        "cli-table": "*",
-        "echoecho": "~0.1.2",
-        "istanbul": "~0.1.42",
-        "express": "~2.5.0",
-        "glob": "~3.1.12",
-        "timethat": "~0.0.1",
-        "rimraf": "*",
-        "mkdirp": "*",
-        "combohandler": "~0.2.0"
-    },
-    "devDependencies": {
-        "yui-lint": "~0.1.1",
-        "jshint": "~0.9.0",
-        "vows": "*"
-    },
-    "keywords": [
-        "yuitest",
-        "phantomjs",
-        "cli testing",
-        "testing"
-    ],
-    "scripts": {
-        "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js ./bin/*.js ./tests/*.js",
-        "test": "istanbul cover --print both vows -- --spec `ls ./tests/*.js | sort -n`"
-    },
-    "preferGlobal": "true",
-    "bugs": { "url" : "http://github.com/yui/grover/issues" },
-    "licenses":[
-        {
-            "type" : "BSD",
-            "url" : "https://github.com/yui/grover/blob/master/LICENSE"
-        }
-    ],
-    "repository": {
-        "type":"git",
-        "url":"http://github.com/yui/grover.git"
+  "name": "grover",
+  "description": "PhantomJS wrapper for YUITest",
+  "version": "0.1.17",
+  "engines": {
+    "node": ">=0.4.0"
+  },
+  "bin": {
+    "grover": "./bin/grover.js"
+  },
+  "main": "./lib/grover.js",
+  "dependencies": {
+    "ansi-color": "*",
+    "yuitest": "*",
+    "cli-table": "*",
+    "echoecho": "~0.1.2",
+    "istanbul": "~0.1.42",
+    "express": "~2.5.0",
+    "glob": "~3.1.12",
+    "timethat": "~0.0.1",
+    "rimraf": "*",
+    "mkdirp": "*",
+    "combohandler": "~0.2.0"
+  },
+  "devDependencies": {
+    "yui-lint": "~0.1.1",
+    "jshint": "~0.9.0",
+    "vows": "*"
+  },
+  "keywords": [
+    "yuitest",
+    "phantomjs",
+    "cli testing",
+    "testing"
+  ],
+  "scripts": {
+    "pretest": "jshint --config ./node_modules/yui-lint/jshint.json ./lib/*.js ./lib/*/*.js ./bin/*.js ./tests/*.js",
+    "test": "istanbul cover --print both vows -- --spec `ls ./tests/*.js | sort -n`"
+  },
+  "preferGlobal": "true",
+  "bugs": {
+    "url": "http://github.com/yui/grover/issues"
+  },
+  "licenses": [
+    {
+      "type": "BSD",
+      "url": "https://github.com/yui/grover/blob/master/LICENSE"
     }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/yui/grover.git"
+  }
 }
