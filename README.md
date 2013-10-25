@@ -89,7 +89,7 @@ Using the built in server
 -------------------------
 
 Using the `--server` command will fire up a server in the `process.cwd()` and serve anything
-under it as statis content. Then when you select the tests to be run, they are converted to URL's
+under it as static content. Then when you select the tests to be run, they are converted to URL's
 under the hood and fetched from the static server instead of the file system.
 
 Combine this with `-S` options like this:
