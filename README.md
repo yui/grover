@@ -70,7 +70,7 @@ Commandline Arguments
     Coverage Options
        --coverage Generate a coverage report and print it to the screen (you must instrument your own files first)
        --coverage-warn <Number> The percentage to highlight as low coverage: default is 80
-       --istanbul-report <Path> Generate an Instabul coverage report into this directory
+       --istanbul-report <Path> Generate an Istanbul coverage report into this directory
        -co --coverageFileName <path to export coverage file> The coverage data in lcov format.
        -sp --sourceFilePrefix <path to sourcefile> The relative path to the original source file for use in the coverage results.
 
